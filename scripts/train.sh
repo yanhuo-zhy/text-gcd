@@ -13,8 +13,8 @@ module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
 source /home/pszzz/miniconda3/bin/activate zhy
 
 CUDA_VISIBLE_DEVICES=0 python train.py \
- --dataset_name='cifar10' \
+ --dataset_name='cifar100' \
  --pseudo_num=10 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --experiment_name='cifar10_topk10_pseudo(10-15)_cluster0.1'
+ --experiment_name='cifar100_topk10_pseudo(10-15)_cluster0.1_textaug'

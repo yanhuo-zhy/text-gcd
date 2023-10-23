@@ -8,7 +8,7 @@ from torch.optim.lr_scheduler import _LRScheduler
 from PIL import ImageOps, ImageFilter
 
 from clip import clip
-# from eda import *
+from eda import *
 
 def load_clip_to_cpu(backbone_name):
 
@@ -162,8 +162,8 @@ class TextViewGenerator(object):
 
     def __call__(self, text):
         # return [text, self.augmenter_spelling.augment(text)]
-        # aug_text = eda(text, alpha_sr=self.alpha_sr, alpha_ri=self.alpha_ri, alpha_rs=self.alpha_rs, p_rd=self.alpha_rd, num_aug=2, seed=self.seed)
-        return [text, text]
+        aug_text = eda(text, alpha_sr=self.alpha_sr, alpha_ri=self.alpha_ri, alpha_rs=self.alpha_rs, p_rd=self.alpha_rd, num_aug=2, seed=self.seed)
+        return [aug_text[0], aug_text[1]]
 
 # lr scheduler for classifier
 class CustomCosineAnnealingLR(_LRScheduler):
