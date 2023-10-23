@@ -46,11 +46,11 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
 
         #-------------------------------------------------------SimGCD cls loss--------------------------------------------------#
 
-        sup_logits = torch.cat([f[mask] for f in (logits_image / 0.1).chunk(2)], dim=0)
+        sup_logits = torch.cat([f[mask] for f in (logits_image ).chunk(2)], dim=0)
         sup_labels = torch.cat([labels[mask] for _ in range(2)], dim=0)
         loss_cls = nn.CrossEntropyLoss()(sup_logits, sup_labels)
 
-        sup_logits_text = torch.cat([f[mask] for f in (logits_text / 0.1).chunk(2)], dim=0)
+        sup_logits_text = torch.cat([f[mask] for f in (logits_text ).chunk(2)], dim=0)
         loss_cls += nn.CrossEntropyLoss()(sup_logits_text, sup_labels)        
 
         #-----------------------------------------------------SimGCD cluster loss------------------------------------------------#
