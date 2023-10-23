@@ -3,7 +3,7 @@
 #SBATCH --qos amp20
 #SBATCH -N 1
 #SBATCH -c 5
-#SBATCH --mem=10000
+#SBATCH --mem=20000
 #SBATCH --gres gpu:1
 #SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp1.txt
 
