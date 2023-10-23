@@ -1,9 +1,10 @@
 #!/bin/bash
 #SBATCH -p cs
 #SBATCH -N 1
+#SBATCH -c 5
 #SBATCH --mem=200000
-#SBATCH --qos csstaff
 #SBATCH --account cs
+#SBATCH --qos csstaff
 #SBATCH --gres gpu:1
 #SBATCH -o /home/pszzz/hyzheng/text-gcd/temp.txt
 
