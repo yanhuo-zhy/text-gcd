@@ -8,7 +8,7 @@ from torch.optim.lr_scheduler import _LRScheduler
 from PIL import ImageOps, ImageFilter
 
 from clip import clip
-from eda import *
+# from eda import *
 
 def load_clip_to_cpu(backbone_name):
 
