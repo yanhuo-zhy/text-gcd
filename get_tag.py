@@ -125,7 +125,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='cluster', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('--batch_size', default=2, type=int)
+    parser.add_argument('--batch_size', default=128, type=int)
     parser.add_argument('--gamma', type=float, default=0.1)
     parser.add_argument('--momentum', type=float, default=0.9)
     parser.add_argument('--weight_decay', type=float, default=1e-4)
@@ -144,6 +144,6 @@ if __name__ == "__main__":
 
     dataloader = DataLoader(lendataset, batch_size=args.batch_size, shuffle=False)
 
-    # tags_attributes = generate_tags_attributes_for_all_batches(dataloader, lens)
-    tags_attributes = generate_tags_attributes_for_one_batch(dataloader, lens)
+    tags_attributes = generate_tags_attributes_for_all_batches(dataloader, lens)
+    # tags_attributes = generate_tags_attributes_for_one_batch(dataloader, lens)
     save_to_file(tags_attributes, f'tag/{args.dataset_name}_tags_attributes.txt')

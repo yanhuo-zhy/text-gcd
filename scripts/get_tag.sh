@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH -p cs
+#SBATCH -N 1
+#SBATCH --mem=200000
+#SBATCH --qos csstaff
+#SBATCH --account cs
+#SBATCH --gres gpu:1
+#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp.txt
+
+module load gcc/gcc-10.2.0
+module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
+
+source /home/pszzz/miniconda3/bin/activate zhy
+
+CUDA_VISIBLE_DEVICES=0 python get_tag.py --dataset_name='imagenet'
