@@ -17,4 +17,4 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --pseudo_num=10 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --experiment_name='cifar10_topk10_pseudo(10-15)_noclssp'
+ --experiment_name='cifar10_topk10_pseudo(10-15)_cluster0.1'
