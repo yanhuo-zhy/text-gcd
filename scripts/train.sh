@@ -17,4 +17,4 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --pseudo_ratio=0.4 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --experiment_name='scars_topk0.5_pseudo(10-15)_textaug'
+ --experiment_name='aircraft_pseudoratio(0.4)_textaug'
