@@ -19,8 +19,8 @@ class CARS_Base(Dataset):
     """
     def __init__(self, train=True, limit=0, data_dir=car_root, transform=None):
 
-        metas = os.path.join(data_dir, 'stanford_cars/devkit/cars_train_annos.mat') if train else os.path.join(data_dir, 'stanford_cars/devkit/cars_test_annos_withlabels.mat')
-        data_dir = os.path.join(data_dir, 'stanford_cars/cars_train/') if train else os.path.join(data_dir, 'stanford_cars/cars_test/')
+        metas = os.path.join(data_dir, 'scars/devkit/cars_train_annos.mat') if train else os.path.join(data_dir, 'stanford_cars/devkit/cars_test_annos_withlabels.mat')
+        data_dir = os.path.join(data_dir, 'scars/cars_train/') if train else os.path.join(data_dir, 'stanford_cars/cars_test/')
 
         self.loader = default_loader
         self.data_dir = data_dir

@@ -4,8 +4,8 @@
 cifar_10_root = '/db/pszzz/NCD_dataset/cifar10'
 cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
 cub_root = '/wang_hp/zhy/data'
-aircraft_root = '/wang_hp/zhy/data'
-car_root = '/wang_hp/zhy/data'
+aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
+car_root = '/db/pszzz/NCD_dataset'
 herbarium_dataroot = '/wang_hp/zhy/data/herbarium'
 imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 

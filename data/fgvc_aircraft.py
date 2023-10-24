@@ -16,7 +16,7 @@ def make_dataset(dir, image_ids, targets):
     images = []
     dir = os.path.expanduser(dir)
     for i in range(len(image_ids)):
-        item = (os.path.join(dir, 'fgvc_aircraft', 'images',
+        item = (os.path.join(dir, 'data', 'images',
                              '%s.jpg' % image_ids[i]), targets[i])
         images.append(item)
     return images
@@ -76,7 +76,7 @@ class FGVCAircraft_Base(Dataset):
         self.root = os.path.expanduser(root)
         self.class_type = class_type
         self.split = split
-        self.classes_file = os.path.join(self.root, 'fgvc_aircraft',
+        self.classes_file = os.path.join(self.root, 'data',
                                          'images_%s_%s.txt' % (self.class_type, self.split))
 
         if download:

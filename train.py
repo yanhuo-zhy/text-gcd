@@ -219,7 +219,7 @@ if __name__ == "__main__":
     parser.add_argument('--alpha_rs', type=float, default=0.05)
     parser.add_argument('--alpha_rd', type=float, default=0.05)
 
-    parser.add_argument('--pseudo_num', type=int, default=10)
+    parser.add_argument('--pseudo_ratio', type=float, default=0.5)
     parser.add_argument('--coteaching_epoch_t', type=int, default=10)
     parser.add_argument('--coteaching_epoch_i', type=int, default=15)
 
@@ -301,9 +301,10 @@ if __name__ == "__main__":
     logger.info(f"len of train dataset: {len(train_loader.dataset)}")
     logger.info(f"len of test dataset: {len(test_loader.dataset)}")
     
+    pseudo_num = math.floor(len(test_loader.dataset) / args.num_classes * args.pseudo_ratio)
 
     for epoch in range(args.epochs):
-        image_to_class_map, image_to_class_map_i = get_pseudolabel(model, test_loader, pseudo_num=args.pseudo_num)
+        image_to_class_map, image_to_class_map_i = get_pseudolabel(model, test_loader, pseudo_num=pseudo_num)
         logger.info(f"len of image_to_class_map: {len(image_to_class_map)}")
         logger.info(f"len of image_to_class_map_i: {len(image_to_class_map_i)}")
         pseudo_text = None
