@@ -13,7 +13,7 @@ module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
 source /home/pszzz/miniconda3/bin/activate zhy
 
 CUDA_VISIBLE_DEVICES=0 python train.py \
- --dataset_name='scars' \
+ --dataset_name='aircraft' \
  --pseudo_ratio=0.4 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
