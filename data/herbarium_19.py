@@ -53,7 +53,7 @@ class HerbariumDataset19(HerbariumDataset19_Base):
         uq_idx = self.uq_idxs[idx]
         path, _ = self.samples[idx]
         image_id = os.path.basename(path)
-        tag_text = construct_text(self.tag[image_id])
+        tag_text = construct_text('', self.tag[image_id])
 
         if self.text_transform is not None:
             tag_text = self.text_transform(tag_text)

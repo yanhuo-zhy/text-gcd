@@ -52,7 +52,7 @@ class CustomCIFAR10(CustomCIFAR10_Base):
         img, label = super().__getitem__(item)
         uq_idx = self.uq_idxs[item]
 
-        tag_text = construct_text(self.tag[str(uq_idx)])
+        tag_text = construct_text('', self.tag[str(uq_idx)])
 
         if self.text_transform is not None:
             tag_text = self.text_transform(tag_text)
@@ -107,7 +107,7 @@ class CustomCIFAR100(CustomCIFAR100_Base):
         img, label = super().__getitem__(item)
         uq_idx = self.uq_idxs[item]
 
-        tag_text = construct_text(self.tag[str(uq_idx)])
+        tag_text = construct_text('', self.tag[str(uq_idx)])
 
         if self.text_transform is not None:
             tag_text = self.text_transform(tag_text)

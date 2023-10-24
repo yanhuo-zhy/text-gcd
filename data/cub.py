@@ -141,7 +141,7 @@ class CustomCub2011(CUB_Base):
         if self.target_transform is not None:
             target = self.target_transform(target)
 
-        tag_text = construct_text(self.tag[image_id])
+        tag_text = construct_text('A photo of a bird, ', self.tag[image_id])
 
         if self.text_transform is not None:
             tag_text = self.text_transform(tag_text)

@@ -202,7 +202,7 @@ class FGVCAircraft(FGVCAircraft_Base):
         path, target = self.samples[index]
         image = self.loader(path)
         image_id = os.path.basename(path)
-        tag_text = construct_text(self.tag[image_id])
+        tag_text = construct_text('A photo of a aircraft, ', self.tag[image_id])
 
         if self.transform is not None:
             image = self.transform(image)

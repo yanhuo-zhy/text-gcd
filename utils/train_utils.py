@@ -362,3 +362,33 @@ def kmeans_centers_evaluate(model, test_loader, kmeans_centers, train_classes=No
     total_acc, old_acc, new_acc = evaluate_accuracy(preds, targets, mask)
 
     return total_acc, old_acc, new_acc
+
+def introduce_typo(word):
+    if len(word) < 3:
+        return word
+    
+    # 选定要修改的字符的位置
+    char_idx = random.randint(1, len(word) - 2)
+    
+    # 以一定的概率选择替换、删除或添加
+    action = random.choice(['replace', 'delete', 'add'])
+    
+    if action == 'replace':
+        random_char = random.choice('abcdefghijklmnopqrstuvwxyz')
+        word = word[:char_idx] + random_char + word[char_idx + 1:]
+    elif action == 'delete':
+        word = word[:char_idx] + word[char_idx + 1:]
+    else:  # add
+        random_char = random.choice('abcdefghijklmnopqrstuvwxyz')
+        word = word[:char_idx] + random_char + word[char_idx:]
+    
+    return word
+
+def tokenize_with_augmentation(text):
+    # 使用空格进行分词
+    words = text.split()
+    
+    # 以某种概率对词进行拼写错误增强
+    augmented_words = [introduce_typo(word) if random.random() < 0.1 else word for word in words]
+    
+    return ' '.join(augmented_words)

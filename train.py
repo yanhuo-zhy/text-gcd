@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from data.get_datasets import get_datasets, get_class_splits
 from model import CustomCLIP, CustomCosineAnnealingLR, ImageViewGenerator, TextViewGenerator, load_clip_to_cpu
 from data.augmentations import get_transform
-from utils.train_utils import init_experiment, get_pseudolabel, evaluate_two, evaluate_weighted
+from utils import init_experiment, get_pseudolabel, evaluate_two, evaluate_weighted
 
 def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, epoch, image_to_class_map, image_to_class_map_i):
     model.train()
@@ -200,7 +200,7 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_name', type=str, default='scars', help='options: cifar10, cifar100, imagenet_100, cub, scars, aircraft, herbarium_19')
     parser.add_argument('--backbone_name', type=str, default='ViT-B/16', help="choose from 'RN50', 'RN101', 'RN50x4', 'RN50x16', 'RN50x64', 'ViT-B/32', 'ViT-B/16', 'ViT-L/14', 'ViT-L/14@336px'")
 
-    parser.add_argument('--epochs', default=50, type=int)
+    parser.add_argument('--epochs', default=200, type=int)
     parser.add_argument('--base_lr', type=float, default=0.0005)
     parser.add_argument('--classifier_lr', type=float, default=0.1)
     parser.add_argument('--momentum', type=float, default=0.9)
@@ -302,6 +302,7 @@ if __name__ == "__main__":
     logger.info(f"len of test dataset: {len(test_loader.dataset)}")
     
     pseudo_num = math.floor(len(test_loader.dataset) / args.num_classes * args.pseudo_ratio)
+    logger.info(f"Pseudo Nums: {pseudo_num}")
 
     for epoch in range(args.epochs):
         image_to_class_map, image_to_class_map_i = get_pseudolabel(model, test_loader, pseudo_num=pseudo_num)

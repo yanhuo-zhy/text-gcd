@@ -94,7 +94,7 @@ class CarsDataset(CARS_Base):
         target = self.target[idx] - 1
         path = self.data[idx]
         image_id = os.path.basename(path)
-        tag_text = construct_text(self.tag[image_id])
+        tag_text = construct_text('A photo of a car, ', self.tag[image_id])
 
         if self.transform is not None:
             image = self.transform(image)

@@ -13,8 +13,7 @@ def process_file(filename):
             data_dict[key] = sub_dict
     return data_dict
 
-def construct_text(data):
-    base_text = "A photo of a bird"
+def construct_text(base_text, data):
     tag_probability_words = ["most likely", "probably", "perhaps"]
     attribute_probability_words = ["Likely", "Perhaps", "Could be"]
     
