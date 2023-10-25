@@ -1,9 +1,10 @@
 #!/bin/bash
-#SBATCH -p amp20
-#SBATCH --qos amp20
+#SBATCH -p cs
+#SBATCH --qos csstaff 
+#SBATCH --account cs 
 #SBATCH -N 1
 #SBATCH -c 5
-#SBATCH --mem=20000
+#SBATCH --mem=15000
 #SBATCH --gres gpu:1
 #SBATCH -o /home/psawl/hyzheng/text-gcd/temp/temp_cifar0.txt
 
