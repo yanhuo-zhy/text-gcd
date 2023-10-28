@@ -17,7 +17,7 @@ source /home/pszzz/miniconda3/bin/activate zhy
 CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='cifar100' \
  --pseudo_ratio=0.6 \
- --lambda_loss=0.3\
+ --lambda_loss=0.25\
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --experiment_name='cifar100_pseudoratio(0.6)_textaug_lambda(0.3)'
+ --experiment_name='cifar100_pseudoratio(0.6)_textaug_lambda(0.25)'
