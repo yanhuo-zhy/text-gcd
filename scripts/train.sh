@@ -1,6 +1,7 @@
 #!/bin/bash
-#SBATCH -p amp20
-#SBATCH --qos amp20
+#SBATCH --account cs
+#SBATCH -p cs
+#SBATCH --qos csstaff
 #SBATCH -N 1
 #SBATCH -c 5
 #SBATCH --mem=20000
@@ -16,7 +17,7 @@ source /home/pszzz/miniconda3/bin/activate zhy
 CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='cifar100' \
  --pseudo_ratio=0.6 \
- --lambda=0.3\
+ --lambda=0.25\
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --experiment_name='cifar100_pseudoratio(0.6)_textaug_lambda(0.3)'
+ --experiment_name='cifar100_pseudoratio(0.6)_textaug_lambda(0.25)'
