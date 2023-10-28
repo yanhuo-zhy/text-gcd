@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account cs
-#SBATCH -p cs
-#SBATCH --qos csstaff
+#SBATCH -p amp20
+#SBATCH --qos amp20
 #SBATCH -N 1
 #SBATCH -c 5
 #SBATCH --mem=20000
