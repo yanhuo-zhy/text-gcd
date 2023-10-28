@@ -151,8 +151,8 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
         #-------------------------------------------------------------total loss--------------------------------------------------#
 
         loss = 0
-        loss += args.lambda * loss_cls 
-        loss += (1-args.lambda) * loss_cluster
+        loss += args.lambda_loss * loss_cls 
+        loss += (1-args.lambda_loss) * loss_cluster
         loss += loss_pseduo
         loss += loss_clip_tag
 
@@ -220,7 +220,7 @@ if __name__ == "__main__":
     parser.add_argument('--alpha_rd', type=float, default=0.05)
 
     parser.add_argument('--pseudo_ratio', type=float, default=0.6)
-    parser.add_argument('--lambda', type=float, default=0.3)
+    parser.add_argument('--lambda_loss', type=float, default=0.3)
     parser.add_argument('--coteaching_epoch_t', type=int, default=10)
     parser.add_argument('--coteaching_epoch_i', type=int, default=15)
 
