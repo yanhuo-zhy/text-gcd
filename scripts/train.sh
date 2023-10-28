@@ -9,8 +9,7 @@
 #SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_aircraft0.txt
 
 module load gcc/gcc-10.2.0
-# module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
-module load nvidia/cuda-9.0 nvidia/cudnn-v7.6.5.32-forcuda9.0
+module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
 
 source /home/pszzz/miniconda3/bin/activate zhy
 # source /home/psawl/miniconda3/bin/activate zhy
