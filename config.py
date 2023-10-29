@@ -10,7 +10,8 @@ cub_root = '/db/pszzz/NCD_dataset/cub'
 aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
 car_root = '/db/pszzz/NCD_dataset'
 herbarium_dataroot = '/wang_hp/zhy/data/herbarium'
-imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
+# imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
+imagenet_root = '/mhug-storage/imagenet'
 
 # OSR Split dir
 osr_split_dir = 'data/ssb_splits'
