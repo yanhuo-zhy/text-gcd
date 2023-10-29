@@ -11,4 +11,4 @@
 module load cuda/12.1
 source /home/zhun.zhong/miniconda3/bin/activate zhy
 
-CUDA_VISIBLE_DEVICES=0 python get_tag.py --dataset_name='imagenet'
+CUDA_VISIBLE_DEVICES=0 python get_tag.py --dataset_name='pets'
