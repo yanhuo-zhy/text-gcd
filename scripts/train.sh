@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account cvl
+#SBATCH --account cs
 #SBATCH -p general
 #SBATCH --qos normal
 #SBATCH -N 1
