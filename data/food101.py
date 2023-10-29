@@ -10,15 +10,15 @@ from config import food_101_root, food_101_tag_root
 
 class Food101_Base(Food101):
 
-    def __init__(self, root=food_101_root, transform=None, target_transform=None, download=False):
+    def __init__(self, root=food_101_root, split='train', transform=None, target_transform=None, download=False):
 
-        super(Food101_Base, self).__init__(root=root, transform=transform, target_transform=target_transform, download=download)
+        super(Food101_Base, self).__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
 
         self.uq_idxs = np.array(range(len(self)))
 
 class Food101_LENS(Food101_Base):
-    def __init__(self, root=food_101_root, transform=None, target_transform=None, download=False):
-        super().__init__(root=root, transform=transform, target_transform=target_transform, download=download)
+    def __init__(self, root=food_101_root, split='train', transform=None, target_transform=None, download=False):
+        super().__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
         
     def __getitem__(self, item):
 
@@ -28,10 +28,10 @@ class Food101_LENS(Food101_Base):
         return {"image": img, "target": label, "image_id": str(uq_idx), "id": uq_idx}
 
 class Food101Dataset(Food101_Base):
-    def __init__(self, tag_root, root=food_101_root, transform=None, target_transform=None, text_transform=None, download=False):
+    def __init__(self, tag_root, root=food_101_root, split='train', transform=None, target_transform=None, text_transform=None, download=False):
         self.tag = process_file(tag_root)
         self.text_transform = text_transform        
-        super().__init__(root=root, transform=transform, target_transform=target_transform, download=download)
+        super().__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
 
     def safe_tokenize(self, text):
         while True:
@@ -121,7 +121,7 @@ def get_food_101_datasets(train_transform,
     np.random.seed(seed)
 
     # Init entire training set
-    whole_training_set = Food101Dataset(tag_root=tag_root, root=food_101_root, transform=train_transform, text_transform=text_transform, train=True)
+    whole_training_set = Food101Dataset(tag_root=tag_root, root=food_101_root, transform=train_transform, text_transform=text_transform)
 
     # Get labelled training set which has subsampled classes, then subsample some indices from that
     train_dataset_labelled = subsample_classes(deepcopy(whole_training_set), include_classes=train_classes)
@@ -139,7 +139,7 @@ def get_food_101_datasets(train_transform,
     train_dataset_unlabelled = subsample_dataset(deepcopy(whole_training_set), np.array(list(unlabelled_indices)))
 
     # Get test set for all classes
-    test_dataset = Food101Dataset(tag_root=tag_root, root=food_101_root, transform=test_transform, text_transform=None, train=False)
+    test_dataset = Food101Dataset(tag_root=tag_root, root=food_101_root, transform=test_transform, text_transform=None, split='test')
 
     # Either split train into train and val or use test set as val
     train_dataset_labelled = train_dataset_labelled_split if split_train_val else train_dataset_labelled

@@ -10,16 +10,16 @@ from config import oxford_flowers_root, oxford_flowers_tag_root
 
 class OxfordFlowers_Base(Flowers102):
 
-    def __init__(self, root=oxford_flowers_root, transform=None, target_transform=None, download=False):
+    def __init__(self, root=oxford_flowers_root, split='train', transform=None, target_transform=None, download=False):
 
-        super(OxfordFlowers_Base, self).__init__(root=root, transform=transform, target_transform=target_transform, download=download)
+        super(OxfordFlowers_Base, self).__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
 
         self.uq_idxs = np.array(range(len(self)))
 
 
 class OxfordFlowers_LENS(OxfordFlowers_Base):
-    def __init__(self, root=oxford_flowers_root, transform=None, target_transform=None, download=False):
-        super().__init__(root=root, transform=transform, target_transform=target_transform, download=download)
+    def __init__(self, root=oxford_flowers_root, split='train', transform=None, target_transform=None, download=False):
+        super().__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
         
     def __getitem__(self, item):
 
@@ -29,10 +29,10 @@ class OxfordFlowers_LENS(OxfordFlowers_Base):
         return {"image": img, "target": label, "image_id": str(uq_idx), "id": uq_idx}
 
 class OxfordFlowersDataset(OxfordFlowers_Base):
-    def __init__(self, tag_root, root=oxford_flowers_root, transform=None, target_transform=None, text_transform=None, download=False):
+    def __init__(self, tag_root, root=oxford_flowers_root, split='train', transform=None, target_transform=None, text_transform=None, download=False):
         self.tag = process_file(tag_root)
         self.text_transform = text_transform        
-        super().__init__(root=root, transform=transform, target_transform=target_transform, download=download)
+        super().__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
 
     def safe_tokenize(self, text):
         while True:
@@ -122,7 +122,7 @@ def get_oxford_flowers_datasets(train_transform,
     np.random.seed(seed)
 
     # Init entire training set
-    whole_training_set = OxfordFlowersDataset(tag_root=tag_root, root=oxford_flowers_root, transform=train_transform, text_transform=text_transform, train=True)
+    whole_training_set = OxfordFlowersDataset(tag_root=tag_root, root=oxford_flowers_root, transform=train_transform, text_transform=text_transform)
 
     # Get labelled training set which has subsampled classes, then subsample some indices from that
     train_dataset_labelled = subsample_classes(deepcopy(whole_training_set), include_classes=train_classes)
@@ -140,7 +140,7 @@ def get_oxford_flowers_datasets(train_transform,
     train_dataset_unlabelled = subsample_dataset(deepcopy(whole_training_set), np.array(list(unlabelled_indices)))
 
     # Get test set for all classes
-    test_dataset = OxfordFlowersDataset(tag_root=tag_root, root=oxford_flowers_root, transform=test_transform, text_transform=None, train=False)
+    test_dataset = OxfordFlowersDataset(tag_root=tag_root, root=oxford_flowers_root, transform=test_transform, text_transform=None, split='test')
 
     # Either split train into train and val or use test set as val
     train_dataset_labelled = train_dataset_labelled_split if split_train_val else train_dataset_labelled
