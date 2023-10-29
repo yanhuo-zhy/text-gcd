@@ -35,6 +35,8 @@ class OxfordPetDataset(OxfordPet_Base):
         self.tag = process_file(tag_root)
         self.text_transform = text_transform        
         super().__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
+        self.data = self._images
+        self.target = self._labels
 
     def safe_tokenize(self, text):
         while True:
