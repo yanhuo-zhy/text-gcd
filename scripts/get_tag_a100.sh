@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p long-disi
 #SBATCH --ntasks=1
-#SBATCH -N 1
+#SBATCH --cpus-per-task=5
 #SBATCH -t 2:00:00
 #SBATCH --mem=30000
 #SBATCH --gres=gpu:a100.80:1
