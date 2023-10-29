@@ -12,15 +12,15 @@ source /home/zhun.zhong/miniconda3/bin/activate zhy
 CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='cub' \
  --pseudo_ratio=0.6 \
- --lambda_loss=0.35\
+ --lambda_loss=0.25\
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --experiment_name='cub_pseudoratio(0.6)_textaug_lambda(0.35)'
+ --experiment_name='cub_pseudoratio(0.6)_textaug_lambda(0.25)'
 
 CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='cub' \
  --pseudo_ratio=0.6 \
- --lambda_loss=0.3\
+ --lambda_loss=0.2\
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --experiment_name='cub_pseudoratio(0.6)_textaug_lambda(0.3)'
+ --experiment_name='cub_pseudoratio(0.6)_textaug_lambda(0.2)'
