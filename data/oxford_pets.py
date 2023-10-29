@@ -13,7 +13,10 @@ class OxfordPet_Base(OxfordIIITPet):
     def __init__(self, root=oxford_pet_root, split='trainval', transform=None, target_transform=None, download=False):
 
         super(OxfordPet_Base, self).__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
-
+        self.data = np.array(self._images)
+        self.targets = np.array(self._labels)
+        print("len of self.data:",len(self.data))
+        print("len of self.targets:",len(self.targets))
         self.uq_idxs = np.array(range(len(self)))
 
     def __len__(self):
@@ -35,8 +38,6 @@ class OxfordPetDataset(OxfordPet_Base):
         self.tag = process_file(tag_root)
         self.text_transform = text_transform        
         super().__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
-        self.data = np.array(self._images)
-        self.targets = np.array(self._labels)
 
     def safe_tokenize(self, text):
         while True:
