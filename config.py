@@ -23,7 +23,7 @@ herbarium_dataroot = '/wang_hp/zhy/data/herbarium'
 # imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 imagenet_root = '/mhug-storage/imagenet'
 
-oxford_pet_root = '/wang_hp/zhy/data'
+oxford_pet_root = '/home/zhun.zhong/GCD_dataset'
 
 # OSR Split dir
 osr_split_dir = 'data/ssb_splits'

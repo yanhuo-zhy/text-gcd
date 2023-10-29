@@ -3,7 +3,6 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=5
 #SBATCH -N 1
-#SBATCH -t 2:00:00
 #SBATCH --mem=20000
 #SBATCH --gres=gpu:a100.40:1
 #SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp1.txt
