@@ -109,7 +109,7 @@ def get_train_val_indices(train_dataset, val_split=0.2):
     return train_idxs, val_idxs
 
 
-def get_oxford_pets_datasets(train_transform, 
+def get_food_101_datasets(train_transform, 
                           test_transform,
                           text_transform, 
                           tag_root=food_101_tag_root, 
