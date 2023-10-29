@@ -27,7 +27,7 @@ oxford_pet_root = '/home/zhun.zhong/GCD_dataset'
 
 oxford_flowers_root = '/home/zhun.zhong/GCD_dataset'
 
-food_101_root = '/home/zhun.zhong/GCD_dataset/food-101'
+food_101_root = '/home/zhun.zhong/GCD_dataset/food_101'
 
 # OSR Split dir
 osr_split_dir = 'data/ssb_splits'
