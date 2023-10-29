@@ -15,6 +15,8 @@ from data.cifar import CustomCIFAR10_LENS, CustomCIFAR100_LENS
 from data.herbarium_19 import HerbariumDataset19_LENS
 from data.imagenet import ImageNetDataset_LENS
 from data.oxford_pets import OxfordPet_LENS
+from data.oxford_flowers import OxfordFlowers_LENS
+from data.food101 import Food101_LENS
 
 dataset_map = {
     'cub': CustomCub2011_LENS,
@@ -24,7 +26,9 @@ dataset_map = {
     'cifar100': CustomCIFAR100_LENS,
     'herbarium_19': HerbariumDataset19_LENS,
     'imagenet': ImageNetDataset_LENS,
-    'pets' : OxfordPet_LENS
+    'pets' : OxfordPet_LENS,
+    'flowers' : OxfordFlowers_LENS,
+    'food' : Food101_LENS
 }
 
 class LensDataset:
@@ -135,12 +139,12 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='cluster', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('--batch_size', default=1000, type=int)
+    parser.add_argument('--batch_size', default=400, type=int)
     parser.add_argument('--gamma', type=float, default=0.1)
     parser.add_argument('--momentum', type=float, default=0.9)
     parser.add_argument('--weight_decay', type=float, default=1e-4)
     parser.add_argument('--epochs', default=50, type=int)
-    parser.add_argument('--dataset_name', type=str, default='imagenet', help='options: cifar10, cifar100, imagenet, cub, scars, aircraft, herbarium_19, pets')
+    parser.add_argument('--dataset_name', type=str, default='imagenet', help='options: cifar10, cifar100, imagenet, cub, scars, aircraft, herbarium_19, pets, flowers, food')
     parser.add_argument('--data_root', type=str, default='/wang_hp/zhy/data/stanford_cars')
     parser.add_argument('--max_kmeans_iter', type=int, default=10)
     parser.add_argument('--k_means_init', type=int, default=20)   

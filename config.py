@@ -25,6 +25,10 @@ imagenet_root = '/mhug-storage/imagenet'
 
 oxford_pet_root = '/home/zhun.zhong/GCD_dataset'
 
+oxford_flowers_root = '/home/zhun.zhong/GCD_dataset'
+
+food_101_root = '/home/zhun.zhong/GCD_dataset/food-101'
+
 # OSR Split dir
 osr_split_dir = 'data/ssb_splits'
 
@@ -37,3 +41,5 @@ cifar_100_tag_root = 'tag/cifar100_tags_attributes.txt'
 herbarium_tag_root = 'tag/herbarium_19_tags_attributes.txt'
 imagenet_tag_root = 'tag/imagenet_tags_attributes.txt'
 oxford_pet_tag_root = 'tag/pets_tags_attributes.txt'
+oxford_flowers_tag_root = 'tag/flowers_tags_attributes.txt'
+food_101_tag_root = 'tag/food_tags_attributes.txt'
