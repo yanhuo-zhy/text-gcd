@@ -131,7 +131,9 @@ def get_oxford_pets_datasets(train_transform,
 
     # Get labelled training set which has subsampled classes, then subsample some indices from that
     train_dataset_labelled = subsample_classes(deepcopy(whole_training_set), include_classes=train_classes)
+    print("len of train_dataset_labelled:", len(train_dataset_labelled))
     subsample_indices = subsample_instances(train_dataset_labelled, prop_indices_to_subsample=prop_train_labels)
+    print("len of subsample_indices:", len(subsample_indices))
     train_dataset_labelled = subsample_dataset(train_dataset_labelled, subsample_indices)
 
     # Split into training and validation sets
