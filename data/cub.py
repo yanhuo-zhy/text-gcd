@@ -116,6 +116,8 @@ class CustomCub2011(CUB_Base):
         self.tag = process_file(tag_root)
         self.text_transform = text_transform
         super().__init__(root, train, transform, target_transform, loader, download)
+        self.data = self._images
+        self.target = self._labels
 
     def safe_tokenize(self, text):
         while True:
