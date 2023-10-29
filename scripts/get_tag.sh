@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --account cvl
 #SBATCH -p amp48
 #SBATCH --qos amp48
 #SBATCH -N 1
