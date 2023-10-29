@@ -1,10 +1,10 @@
 # -----------------
 # DATASET ROOTS
 # -----------------
-cifar_10_root = '/db/pszzz/NCD_dataset/cifar10'
-cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
-# cifar_10_root = '/db/psawl'
-# cifar_100_root = '/db/psawl'
+# cifar_10_root = '/db/pszzz/NCD_dataset/cifar10'
+# cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
+cifar_10_root = '/db/psawl'
+cifar_100_root = '/db/psawl'
 cub_root = '/wang_hp/zhy/data'
 aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
 car_root = '/db/pszzz/NCD_dataset'
