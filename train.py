@@ -197,7 +197,7 @@ if __name__ == "__main__":
     parser.add_argument('--experiment_name', type=str, default='scars_topk10_pseudo(10-15)')
     parser.add_argument('--seed_num', type=int, default=1)
     parser.add_argument('--evaluate', type=bool, default=False)
-    parser.add_argument('--dataset_name', type=str, default='scars', help='options: cifar10, cifar100, imagenet_100, cub, scars, aircraft, herbarium_19')
+    parser.add_argument('--dataset_name', type=str, default='scars', help='options: cifar10, cifar100, imagenet_100, cub, scars, aircraft, herbarium_19, pets, flowers, food')
     parser.add_argument('--backbone_name', type=str, default='ViT-B/16', help="choose from 'RN50', 'RN101', 'RN50x4', 'RN50x16', 'RN50x64', 'ViT-B/32', 'ViT-B/16', 'ViT-L/14', 'ViT-L/14@336px'")
 
     parser.add_argument('--epochs', default=200, type=int)
