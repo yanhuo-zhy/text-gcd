@@ -1,6 +1,8 @@
 from torchvision.datasets import Flowers102
 from copy import deepcopy
 import numpy as np
+from typing import Any, Tuple
+from PIL import Image
 
 from data.data_utils import subsample_instances
 from utils import process_file, construct_text
@@ -13,8 +15,24 @@ class OxfordFlowers_Base(Flowers102):
     def __init__(self, root=oxford_flowers_root, split='train', transform=None, target_transform=None, download=False):
 
         super(OxfordFlowers_Base, self).__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
-
+        self.data = np.array(self._image_files)
+        self.targets = np.array(self._labels)
         self.uq_idxs = np.array(range(len(self)))
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx) -> Tuple[Any, Any]:
+        image_file, label = self.data[idx], self.targets[idx]
+        image = Image.open(image_file).convert("RGB")
+
+        if self.transform:
+            image = self.transform(image)
+
+        if self.target_transform:
+            label = self.target_transform(label)
+
+        return image, label
 
 
 class OxfordFlowers_LENS(OxfordFlowers_Base):
@@ -157,7 +175,7 @@ def get_oxford_flowers_datasets(train_transform,
 
 if __name__ == '__main__':
 
-    x = get_oxford_pets_datasets(None, None, split_train_val=False,
+    x = get_oxford_flowers_datasets(None, None, split_train_val=False,
                          train_classes=range(10), prop_train_labels=0.5)
 
     print('Printing lens...')
