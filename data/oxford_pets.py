@@ -1,6 +1,8 @@
 from torchvision.datasets import OxfordIIITPet
 from copy import deepcopy
 import numpy as np
+from typing import Any, Tuple
+from PIL import Image
 
 from data.data_utils import subsample_instances
 from utils import process_file, construct_text
@@ -15,12 +17,35 @@ class OxfordPet_Base(OxfordIIITPet):
         super(OxfordPet_Base, self).__init__(root=root, split=split, transform=transform, target_transform=target_transform, download=download)
         self.data = np.array(self._images)
         self.targets = np.array(self._labels)
-        print("len of self.data:",len(self.data))
-        print("len of self.targets:",len(self.targets))
         self.uq_idxs = np.array(range(len(self)))
 
     def __len__(self):
-        return len(self._images)
+        return len(self.data)
+    
+    def __getitem__(self, idx: int) -> Tuple[Any, Any]:
+        image = Image.open(self.data[idx]).convert("RGB")
+
+        target: Any = []
+        for target_type in self._target_types:
+            if target_type == "category":
+                target.append(self.targets[idx])
+            else:  # target_type == "segmentation"
+                target.append(Image.open(self._segs[idx]))
+
+        if not target:
+            target = None
+        elif len(target) == 1:
+            target = target[0]
+        else:
+            target = tuple(target)
+
+        if self.transform is not None:
+            image = self.transform(image)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return image, target
 
 class OxfordPet_LENS(OxfordPet_Base):
     def __init__(self, root=oxford_pet_root, split='trainval', transform=None, target_transform=None, download=False):
@@ -68,7 +93,6 @@ def subsample_dataset(dataset, idxs):
     # Allow for setting in which all empty set of indices is passed
 
     if len(idxs) > 0:
-
         dataset.data = dataset.data[idxs]
         dataset.targets = np.array(dataset.targets)[idxs].tolist()
         dataset.uq_idxs = dataset.uq_idxs[idxs]
@@ -131,9 +155,7 @@ def get_oxford_pets_datasets(train_transform,
 
     # Get labelled training set which has subsampled classes, then subsample some indices from that
     train_dataset_labelled = subsample_classes(deepcopy(whole_training_set), include_classes=train_classes)
-    print("len of train_dataset_labelled:", len(train_dataset_labelled))
     subsample_indices = subsample_instances(train_dataset_labelled, prop_indices_to_subsample=prop_train_labels)
-    print("len of subsample_indices:", len(subsample_indices))
     train_dataset_labelled = subsample_dataset(train_dataset_labelled, subsample_indices)
 
     # Split into training and validation sets
