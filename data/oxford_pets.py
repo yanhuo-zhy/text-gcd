@@ -79,7 +79,7 @@ class OxfordPetDataset(OxfordPet_Base):
         img, label = super().__getitem__(item)
         uq_idx = self.uq_idxs[item]
 
-        tag_text = construct_text('', self.tag[str(uq_idx)])
+        tag_text = construct_text('A photo of a pet, ', self.tag[str(uq_idx)])
 
         if self.text_transform is not None:
             tag_text = self.text_transform(tag_text)
