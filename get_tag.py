@@ -163,6 +163,7 @@ if __name__ == "__main__":
     if os.path.exists(output_file + '.idx'):
         with open(output_file + '.idx', 'r') as f_idx:
             start_idx = int(f_idx.read().strip())
+            print("start_idx=",start_idx)
 
     dataloader = DataLoader(lendataset, batch_size=args.batch_size, shuffle=False)
 
