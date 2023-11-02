@@ -17,4 +17,5 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
  --seed_num=1 \
+ --interrupted_path='' \
  --experiment_name='imagenet_100_pseudoratio(0.6)_textaug_lambda(0.2)'
