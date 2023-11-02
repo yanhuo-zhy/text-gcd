@@ -227,7 +227,7 @@ if __name__ == "__main__":
     parser.add_argument('--max_kmeans_iter', type=int, default=10)
     parser.add_argument('--k_means_init', type=int, default=20)    
 
-    parser.add_argument('--interrupted_path', type=str, default=None) 
+    parser.add_argument('--interrupted_path', type=str, default='') 
 
     args = parser.parse_args()
     args = get_class_splits(args)
