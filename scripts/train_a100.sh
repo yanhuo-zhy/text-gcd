@@ -13,19 +13,19 @@ source /home/zhun.zhong/miniconda3/bin/activate zhy
 CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='cub' \
  --pseudo_ratio=0.6 \
- --lambda_loss=0.7 \
+ --lambda_loss=0.5 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
  --seed_num=1 \
  --interrupted_path='' \
- --experiment_name='cub_ablation_lambda(0.7)'
+ --experiment_name='cub_ablation_lambda(0.5)'
 
 CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='cub' \
  --pseudo_ratio=0.6 \
- --lambda_loss=0.6 \
+ --lambda_loss=0.4 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
  --seed_num=1 \
  --interrupted_path='' \
- --experiment_name='cub_ablation_lambda(0.6)'
+ --experiment_name='cub_ablation_lambda(0.4)'
