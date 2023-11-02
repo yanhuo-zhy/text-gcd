@@ -8,7 +8,8 @@ import torch.nn as nn
 from torch.optim import SGD
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
-
+import torch.multiprocessing
+torch.multiprocessing.set_sharing_strategy('file_system')
 
 from data.get_datasets import get_datasets, get_class_splits
 from model import CustomCLIP, CustomCosineAnnealingLR, ImageViewGenerator, TextViewGenerator, load_clip_to_cpu
