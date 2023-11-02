@@ -5,17 +5,17 @@
 #SBATCH -t 2-0
 #SBATCH -N 1
 #SBATCH --mem=20000
-#SBATCH --gres=gpu:a100.40:1
-#SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp_cifar2.txt
+#SBATCH --gres=gpu:a100.80:1
+#SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp_cifar3.txt
 module load cuda/12.1
 source /home/zhun.zhong/miniconda3/bin/activate zhy
 
 CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='cifar100' \
  --pseudo_ratio=0.6 \
- --lambda_loss=0.9 \
+ --lambda_loss=0.8 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
  --seed_num=1 \
  --interrupted_path='' \
- --experiment_name='cifar100_ablation_lambda(0.9)'
+ --experiment_name='cifar100_ablation_lambda(0.8)'
