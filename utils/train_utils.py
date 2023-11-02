@@ -102,10 +102,15 @@ def init_experiment(args):
     
     # Directory Management
     if not args.evaluate:
-        experiment_dir = create_experiment_directory(args.experiment_name, args.output_dir)
+        if hasattr(args, 'interrupted_path') and os.path.exists(args.interrupted_path):
+            experiment_dir = args.interrupted_path
+        else:
+            experiment_dir = create_experiment_directory(args.experiment_name, args.output_dir)
+        
         args.log_path = os.path.join(experiment_dir, 'logs', 'log.txt')
         args.model_path = os.path.join(experiment_dir, 'models', 'model.pth')
         tensorboard_log_dir = os.path.join(experiment_dir, 'tensorboard_logs')
+
     else:
         validate_evaluation_path(args.evaluate_path)
         args.log_path = os.path.join(args.evaluate_path, 'logs', 'log.txt')

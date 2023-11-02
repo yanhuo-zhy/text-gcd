@@ -154,7 +154,7 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
         loss += args.lambda_loss * loss_cls 
         loss += (1-args.lambda_loss) * loss_cluster
         loss += loss_pseduo
-        # loss += loss_clip_tag
+        loss += loss_clip_tag
 
         # Backward pass
         optimizer.zero_grad()
@@ -226,6 +226,8 @@ if __name__ == "__main__":
 
     parser.add_argument('--max_kmeans_iter', type=int, default=10)
     parser.add_argument('--k_means_init', type=int, default=20)    
+
+    parser.add_argument('--interrupted_path', type=str, default=None) 
 
     args = parser.parse_args()
     args = get_class_splits(args)
@@ -305,7 +307,18 @@ if __name__ == "__main__":
     pseudo_num = math.floor(len(test_loader.dataset) / args.num_classes * args.pseudo_ratio)
     logger.info(f"Pseudo Nums: {pseudo_num}")
 
-    for epoch in range(args.epochs):
+    best_acc_w = 0.0
+
+    start_epoch = 0
+    if os.path.exists(args.model_path):
+        checkpoint = torch.load(args.model_path)
+        model.load_state_dict(checkpoint['model_state_dict'])
+        optimizer_train.load_state_dict(checkpoint['optimizer_state_dict'])
+        start_epoch = checkpoint['epoch'] + 1  # 加1是为了从下一个epoch开始
+        if 'scheduler_state_dict' in checkpoint:
+            scheduler_train.load_state_dict(checkpoint['scheduler_state_dict'])
+
+    for epoch in range(start_epoch, args.epochs):
         image_to_class_map, image_to_class_map_i = get_pseudolabel(model, test_loader, pseudo_num=pseudo_num)
         logger.info(f"len of image_to_class_map: {len(image_to_class_map)}")
         logger.info(f"len of image_to_class_map_i: {len(image_to_class_map_i)}")
@@ -331,5 +344,15 @@ if __name__ == "__main__":
         writer.add_scalar('Accuracy/All', total_acc_w, epoch)
         writer.add_scalar('Accuracy/Old', old_acc_w, epoch)
         writer.add_scalar('Accuracy/New', new_acc_w, epoch)
+
+        if total_acc_w > best_acc_w:
+            best_acc_w = total_acc_w
+            checkpoint = {
+                'epoch': epoch,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer_train.state_dict(),
+                'scheduler_state_dict': scheduler_train.state_dict()
+            }
+            torch.save(checkpoint, args.model_path)
 
     writer.close()
