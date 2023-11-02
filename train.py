@@ -346,14 +346,14 @@ if __name__ == "__main__":
         writer.add_scalar('Accuracy/Old', old_acc_w, epoch)
         writer.add_scalar('Accuracy/New', new_acc_w, epoch)
 
-        if total_acc_w > best_acc_w:
-            best_acc_w = total_acc_w
-            checkpoint = {
-                'epoch': epoch,
-                'model_state_dict': model.state_dict(),
-                'optimizer_state_dict': optimizer_train.state_dict(),
-                'scheduler_state_dict': scheduler_train.state_dict()
-            }
-            torch.save(checkpoint, args.model_path)
+        # if total_acc_w > best_acc_w:
+        #     best_acc_w = total_acc_w
+        #     checkpoint = {
+        #         'epoch': epoch,
+        #         'model_state_dict': model.state_dict(),
+        #         'optimizer_state_dict': optimizer_train.state_dict(),
+        #         'scheduler_state_dict': scheduler_train.state_dict()
+        #     }
+        #     torch.save(checkpoint, args.model_path)
 
     writer.close()
