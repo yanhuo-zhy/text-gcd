@@ -9,7 +9,8 @@
 #SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_cub_vith.txt
 
 module load gcc/gcc-10.2.0
-module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
+# module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
+module load nvidia/cuda-11.0 nvidia/cudnn-v8.0.180-forcuda11.0
 
 source /home/pszzz/miniconda3/bin/activate zhy
 # source /home/psawl/miniconda3/bin/activate zhy
