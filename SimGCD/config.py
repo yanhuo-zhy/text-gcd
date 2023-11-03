@@ -3,7 +3,7 @@
 # -----------------
 cifar_10_root = '${DATASET_DIR}/cifar10'
 cifar_100_root = '${DATASET_DIR}/cifar100'
-cub_root = '/wang_hp/zhy/data'
+cub_root = '/home/zhun.zhong/GCD_dataset/cub'
 aircraft_root = '${DATASET_DIR}/fgvc-aircraft-2013b'
 car_root = '/wang_hp/zhy/gcd-task/data/cars'
 herbarium_dataroot = '${DATASET_DIR}/herbarium_19'
