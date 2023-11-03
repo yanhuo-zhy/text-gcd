@@ -4,8 +4,8 @@ import numpy as np
 import torch
 import random
 from datetime import datetime
-from torch.utils.tensorboard import SummaryWriter
-# from tensorboardX import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
+from tensorboardX import SummaryWriter
 from scipy.optimize import linear_sum_assignment as linear_assignment
 
 from torch.nn import functional as F
