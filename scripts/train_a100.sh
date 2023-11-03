@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -p long-math
+#SBATCH -p long-disi
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=5
 #SBATCH -t 2-0
