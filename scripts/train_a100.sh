@@ -18,5 +18,5 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --coteaching_epoch_i=15 \
  --seed_num=1 \
  --interrupted_path='' \
- --batch_size=100 \
- --experiment_name='cub_vith16_test'
+ --batch_size=128 \
+ --experiment_name='fix_backbone_cub_vit_h'
