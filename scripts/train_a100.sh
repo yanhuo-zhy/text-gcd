@@ -6,7 +6,7 @@
 #SBATCH -N 1
 #SBATCH --mem=20000
 #SBATCH --gres=gpu:a100.80:1
-#SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp_cubvith2.txt
+#SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp_cubvith0.txt
 module load cuda/12.1
 source /home/zhun.zhong/miniconda3/bin/activate zhy
 
