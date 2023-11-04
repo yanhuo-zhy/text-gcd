@@ -1,15 +1,15 @@
 # -----------------
 # DATASET ROOTS
 # -----------------
-cifar_10_root = '/db/pszzz/NCD_dataset/cifar10'
-cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
-# cifar_10_root = '/db/psawl'
-# cifar_100_root = '/db/psawl'
+# cifar_10_root = '/db/pszzz/NCD_dataset/cifar10'
+# cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
+cifar_10_root = '/db/psawl'
+cifar_100_root = '/db/psawl'
 # cifar_10_root = '/home/zhun.zhong/GCD_dataset/cifar_10'
 # cifar_100_root = '/home/zhun.zhong/GCD_dataset/cifar_100'
 
-cub_root = '/db/pszzz/NCD_dataset/cub'
-# cub_root = '/db/psawl/cub'
+# cub_root = '/db/pszzz/NCD_dataset/cub'
+cub_root = '/db/psawl/cub'
 # cub_root = '/home/zhun.zhong/GCD_dataset/cub'
 
 # aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
