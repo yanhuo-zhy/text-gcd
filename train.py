@@ -242,9 +242,9 @@ if __name__ == "__main__":
     args, logger, writer = init_experiment(args)
 
     logger.info(f"Loading CLIP (backbone: {args.backbone_name})")
-    clip_model = load_clip_to_cpu(args.backbone_name).float()
-    # model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
-    # clip_model = open_clip.create_model_and_transforms(model_name)[0]
+    # clip_model = load_clip_to_cpu(args.backbone_name).float()
+    model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
+    clip_model = open_clip.create_model_and_transforms(model_name)[0]
 
     logger.info("Building custom CLIP")
     model = CustomCLIP(clip_model, args.num_classes).to(args.device)
