@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account cvl
-#SBATCH -p general
-#SBATCH --qos normal
+#SBATCH -p amp48
+#SBATCH --qos amp48
 #SBATCH -N 1
 #SBATCH -c 5
 #SBATCH --mem=20000
@@ -24,3 +24,33 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --seed_num=1 \
  --interrupted_path='' \
  --experiment_name='cub_ablation_pseudo_ratio(0.2)'
+
+CUDA_VISIBLE_DEVICES=0 python train.py \
+ --dataset_name='cub' \
+ --pseudo_ratio=0.3 \
+ --lambda_loss=0.2 \
+ --coteaching_epoch_t=10 \
+ --coteaching_epoch_i=15 \
+ --seed_num=1 \
+ --interrupted_path='' \
+ --experiment_name='cub_ablation_pseudo_ratio(0.3)'
+
+CUDA_VISIBLE_DEVICES=0 python train.py \
+ --dataset_name='cub' \
+ --pseudo_ratio=0.4 \
+ --lambda_loss=0.2 \
+ --coteaching_epoch_t=10 \
+ --coteaching_epoch_i=15 \
+ --seed_num=1 \
+ --interrupted_path='' \
+ --experiment_name='cub_ablation_pseudo_ratio(0.4)'
+
+CUDA_VISIBLE_DEVICES=0 python train.py \
+ --dataset_name='cub' \
+ --pseudo_ratio=0.5 \
+ --lambda_loss=0.2 \
+ --coteaching_epoch_t=10 \
+ --coteaching_epoch_i=15 \
+ --seed_num=1 \
+ --interrupted_path='' \
+ --experiment_name='cub_ablation_pseudo_ratio(0.5)'
