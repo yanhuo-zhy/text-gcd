@@ -242,9 +242,9 @@ if __name__ == "__main__":
     args, logger, writer = init_experiment(args)
 
     logger.info(f"Loading CLIP (backbone: {args.backbone_name})")
-    # clip_model = load_clip_to_cpu(args.backbone_name).float()
-    model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
-    clip_model = open_clip.create_model_and_transforms(model_name)[0]
+    clip_model = load_clip_to_cpu(args.backbone_name).float()
+    # model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
+    # clip_model = open_clip.create_model_and_transforms(model_name)[0]
 
     logger.info("Building custom CLIP")
     model = CustomCLIP(clip_model, args.num_classes).to(args.device)
@@ -254,12 +254,12 @@ if __name__ == "__main__":
         param.requires_grad_(False)
 
     for name, param in model.named_parameters():
-        # if "transformer.resblocks.11" in name:
-        #     param.requires_grad_(True)
-        # if "visual.proj" in name:
-        #     param.requires_grad_(True)
-        # if "text_projection" in name:
-        #     param.requires_grad_(True)
+        if "transformer.resblocks.11" in name:
+            param.requires_grad_(True)
+        if "visual.proj" in name:
+            param.requires_grad_(True)
+        if "text_projection" in name:
+            param.requires_grad_(True)
         if "image_classifier" in name:
             param.requires_grad_(True)
         if "text_classifier" in name:
@@ -316,13 +316,13 @@ if __name__ == "__main__":
     best_acc_w = 0.0
 
     start_epoch = 0
-    if os.path.exists(args.model_path):
-        checkpoint = torch.load(args.model_path)
-        model.load_state_dict(checkpoint['model_state_dict'])
-        optimizer_train.load_state_dict(checkpoint['optimizer_state_dict'])
-        start_epoch = checkpoint['epoch'] + 1  # 加1是为了从下一个epoch开始
-        if 'scheduler_state_dict' in checkpoint:
-            scheduler_train.load_state_dict(checkpoint['scheduler_state_dict'])
+    # if os.path.exists(args.model_path):
+    #     checkpoint = torch.load(args.model_path)
+    #     model.load_state_dict(checkpoint['model_state_dict'])
+    #     optimizer_train.load_state_dict(checkpoint['optimizer_state_dict'])
+    #     start_epoch = checkpoint['epoch'] + 1  # 加1是为了从下一个epoch开始
+    #     if 'scheduler_state_dict' in checkpoint:
+    #         scheduler_train.load_state_dict(checkpoint['scheduler_state_dict'])
 
     for epoch in range(start_epoch, args.epochs):
         image_to_class_map, image_to_class_map_i = get_pseudolabel(model, test_loader, pseudo_num=pseudo_num)
@@ -351,14 +351,14 @@ if __name__ == "__main__":
         writer.add_scalar('Accuracy/Old', old_acc_w, epoch)
         writer.add_scalar('Accuracy/New', new_acc_w, epoch)
 
-        if total_acc_w > best_acc_w:
-            best_acc_w = total_acc_w
-            checkpoint = {
-                'epoch': epoch,
-                'model_state_dict': model.state_dict(),
-                'optimizer_state_dict': optimizer_train.state_dict(),
-                'scheduler_state_dict': scheduler_train.state_dict()
-            }
-            torch.save(checkpoint, args.model_path)
+        # if total_acc_w > best_acc_w:
+        #     best_acc_w = total_acc_w
+        #     checkpoint = {
+        #         'epoch': epoch,
+        #         'model_state_dict': model.state_dict(),
+        #         'optimizer_state_dict': optimizer_train.state_dict(),
+        #         'scheduler_state_dict': scheduler_train.state_dict()
+        #     }
+        #     torch.save(checkpoint, args.model_path)
 
     writer.close()

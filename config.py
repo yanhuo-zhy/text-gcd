@@ -20,8 +20,8 @@ car_root = '/home/zhun.zhong/GCD_dataset'
 
 herbarium_dataroot = '/wang_hp/zhy/data/herbarium'
 
-# imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
-imagenet_root = '/mhug-storage/imagenet'
+imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
+# imagenet_root = '/mhug-storage/imagenet'
 
 oxford_pet_root = '/home/zhun.zhong/GCD_dataset'
 
