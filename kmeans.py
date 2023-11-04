@@ -15,6 +15,7 @@ from data.augmentations import get_transform
 from utils.train_utils import init_experiment, get_pseudolabel, evaluate_two, evaluate_weighted, evaluate_accuracy
 
 from sklearn.cluster import KMeans
+import open_clip
 
 def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, epoch, image_to_class_map, image_to_class_map_i):
     model.train()
@@ -196,10 +197,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='cluster', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--output_dir', type=str, default='exp')
-    parser.add_argument('--experiment_name', type=str, default='herbarium_19-kmeans')
+    parser.add_argument('--experiment_name', type=str, default='cub-vit-B16lens-kmeans')
     parser.add_argument('--seed_num', type=int, default=1)
     parser.add_argument('--evaluate', type=bool, default=False)
-    parser.add_argument('--dataset_name', type=str, default='herbarium_19', help='options: cifar10, cifar100, imagenet_100, cub, scars, aircraft, herbarium_19, pets, flowers, food')
+    parser.add_argument('--dataset_name', type=str, default='cub', help='options: cifar10, cifar100, imagenet_100, cub, scars, aircraft, herbarium_19')
     parser.add_argument('--backbone_name', type=str, default='ViT-B/16', help="choose from 'RN50', 'RN101', 'RN50x4', 'RN50x16', 'RN50x64', 'ViT-B/32', 'ViT-B/16', 'ViT-L/14', 'ViT-L/14@336px'")
 
     parser.add_argument('--epochs', default=50, type=int)
@@ -238,6 +239,8 @@ if __name__ == "__main__":
 
     logger.info(f"Loading CLIP (backbone: {args.backbone_name})")
     clip_model = load_clip_to_cpu(args.backbone_name).float()
+    # model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
+    # clip_model = open_clip.create_model_and_transforms(model_name)[0]
 
     logger.info("Building custom CLIP")
     model = CustomCLIP(clip_model, args.num_classes).to(args.device)
@@ -307,17 +310,20 @@ if __name__ == "__main__":
     model.eval()
 
     all_feats = []
+    all_feats_image = []
     targets = np.array([])
     mask = np.array([])     # From all the data, which instances belong to Old classes
     print('Collating features...')
 
-    for batch_idx, (_, label, _, tag_token, _) in enumerate(tqdm(test_loader)):
-        # images = images.cuda(non_blocking=True)
+    for batch_idx, (images, label, _, tag_token, _) in enumerate(tqdm(test_loader)):
+        images = images.cuda(non_blocking=True)
         label = label.cuda(non_blocking=True)
         tag_token = tag_token.squeeze(1).cuda(non_blocking=True)
         with torch.no_grad():
             feats = model.encode_text(tag_token)
+            img_feats = model.encode_image(images)
         all_feats.append(feats.cpu().numpy())
+        all_feats_image.append(img_feats.cpu().numpy())
         targets = np.append(targets, label.cpu().numpy())
         # mask = np.append(mask, np.array([True if x.item() in range(args.num_labeled_classes) else False for x in label]))
         mask = np.append(mask, np.array([True if x.item() in args.train_classes else False for x in label]))
@@ -332,7 +338,19 @@ if __name__ == "__main__":
     kmeans_centers = kmeans.cluster_centers_
 
     all_acc, old_acc, new_acc = evaluate_accuracy(kmeans_labels, targets, mask)
-    logger.info(f"Kmeans Accuracies: All {all_acc:.4f} | Old {old_acc:.4f} | New {new_acc:.4f}")
+    logger.info(f"Text Kmeans Accuracies: All {all_acc:.4f} | Old {old_acc:.4f} | New {new_acc:.4f}")
     #----------------------------------------------------------------------kmeans--------------------------------------------------------------
+
+    all_feats = np.concatenate(all_feats_image, axis=0)
+
+    n_clusters = args.num_classes  # 选择您想要的聚类数量
+    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+    # 训练KMeans模型
+    kmeans.fit(all_feats)
+    kmeans_labels = kmeans.labels_
+    kmeans_centers = kmeans.cluster_centers_
+
+    all_acc, old_acc, new_acc = evaluate_accuracy(kmeans_labels, targets, mask)
+    logger.info(f"Image Kmeans Accuracies: All {all_acc:.4f} | Old {old_acc:.4f} | New {new_acc:.4f}")
 
     writer.close()
