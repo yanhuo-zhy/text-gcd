@@ -6,7 +6,7 @@
 #SBATCH -c 5
 #SBATCH --mem=15000
 #SBATCH --gres gpu:1
-#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_imagenet1.txt
+#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_imagenet2.txt
 
 module load gcc/gcc-10.2.0
 # module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
@@ -23,4 +23,4 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --coteaching_epoch_i=15 \
  --seed_num=1 \
  --interrupted_path='' \
- --experiment_name='imagenet_1k_pseudoratio(0.6)_textaug_lambda(0.2)_sharpen'
+ --experiment_name='imagenet_1k_pseudoratio(0.6)_textaug_lambda(0.2)'
