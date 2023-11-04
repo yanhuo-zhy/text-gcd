@@ -280,13 +280,13 @@ if __name__ == "__main__":
     #         if block_num >= args.grad_from_block:
     #             m.requires_grad = True
 
-    for name, param in backbone.named_parameters():
-        if "resblocks.11" in name:
-            param.requires_grad_(True)
-            print(name)
-        if name=="proj":
-            param.requires_grad_(True)
-            print(name)
+    # for name, param in backbone.named_parameters():
+    #     if "resblocks.11" in name:
+    #         param.requires_grad_(True)
+    #         print(name)
+    #     if name=="proj":
+    #         param.requires_grad_(True)
+    #         print(name)
 
     
     args.logger.info('model build')
