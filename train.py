@@ -50,20 +50,20 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
 
         #-------------------------------------------------------SimGCD cls loss--------------------------------------------------#
 
-        sup_logits = torch.cat([f[mask] for f in (logits_image / 0.05).chunk(2)], dim=0)
+        sup_logits = torch.cat([f[mask] for f in (logits_image / 0.1).chunk(2)], dim=0)
         sup_labels = torch.cat([labels[mask] for _ in range(2)], dim=0)
         loss_cls = nn.CrossEntropyLoss()(sup_logits, sup_labels)
 
-        sup_logits_text = torch.cat([f[mask] for f in (logits_text / 0.05).chunk(2)], dim=0)
+        sup_logits_text = torch.cat([f[mask] for f in (logits_text / 0.1).chunk(2)], dim=0)
         loss_cls += nn.CrossEntropyLoss()(sup_logits_text, sup_labels)        
 
         #-----------------------------------------------------SimGCD cluster loss------------------------------------------------#
 
-        student_out = logits_image / 0.025
+        student_out = logits_image / 0.05
         teacher_out = logits_image.detach()
         student_out = student_out.chunk(2)
 
-        temp = teacher_temp_schedule[epoch]/2
+        temp = teacher_temp_schedule[epoch]
         teacher_out = F.softmax(teacher_out / temp, dim=-1)
         teacher_out = teacher_out.chunk(2)
         loss_cluster = 0
@@ -78,15 +78,15 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
 
         loss_cluster /= n_loss_terms
 
-        avg_probs = (logits_image / 0.025).softmax(dim=1).mean(dim=0)
+        avg_probs = (logits_image / 0.05).softmax(dim=1).mean(dim=0)
         me_max_loss = - torch.sum(torch.log(avg_probs**(-avg_probs))) + math.log(float(len(avg_probs)))
         loss_cluster += 2 * me_max_loss
         #--------------------------------------------------------------------
-        student_out_text = logits_text / 0.025
+        student_out_text = logits_text / 0.05
         teacher_out_text = logits_text.detach()
         student_out_text = student_out_text.chunk(2)
 
-        temp = teacher_temp_schedule[epoch] /2
+        temp = teacher_temp_schedule[epoch] 
         teacher_out_text = F.softmax(teacher_out_text / temp, dim=-1)
         teacher_out_text = teacher_out_text.chunk(2)
         loss_cluster_text = 0
@@ -101,7 +101,7 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
 
         loss_cluster_text /= n_loss_terms
 
-        avg_probs_text = (logits_text / 0.025).softmax(dim=1).mean(dim=0)
+        avg_probs_text = (logits_text / 0.05).softmax(dim=1).mean(dim=0)
         me_max_loss_text = - torch.sum(torch.log(avg_probs_text**(-avg_probs_text))) + math.log(float(len(avg_probs_text)))
         loss_cluster_text += 2 * me_max_loss_text
 
