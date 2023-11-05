@@ -1,12 +1,12 @@
 #!/bin/bash
 #SBATCH --account cs
-#SBATCH -p ampere 
-#SBATCH --qos ampere  
+#SBATCH -p general 
+#SBATCH --qos normal  
 #SBATCH -N 1
 #SBATCH -c 5
 #SBATCH --mem=20000
 #SBATCH --gres gpu:1
-#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_cub0.txt
+#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_cub1.txt
 
 module load gcc/gcc-10.2.0
 # module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
@@ -24,4 +24,4 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --seed_num=1 \
  --interrupted_path='' \
  --batch_size=128 \
- --experiment_name='cub_ablation_1tag_0attribute'
+ --experiment_name='cub_ablation_2tag_0attribute'
