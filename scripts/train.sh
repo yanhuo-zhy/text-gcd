@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account cs
 #SBATCH -p amp48
-#SBATCH --qos ampere
+#SBATCH --qos amp48
 #SBATCH -N 1
 #SBATCH -c 5
 #SBATCH --mem=30000
