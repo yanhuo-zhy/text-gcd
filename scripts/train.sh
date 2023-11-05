@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account cs
-#SBATCH -p cs
-#SBATCH --qos cspg
+#SBATCH -p general 
+#SBATCH --qos normal  
 #SBATCH -N 1
 #SBATCH -c 5
 #SBATCH --mem=20000
