@@ -24,4 +24,4 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --seed_num=1 \
  --interrupted_path='' \
  --batch_size=512 \
- --experiment_name='imagenet_1k_pseudoratio(0.6)_textaug_lambda(0.2)'
+ --experiment_name='imagenet_1k_pseudoratio(0.6)_textaug_lambda(0.2)_sharpen'
