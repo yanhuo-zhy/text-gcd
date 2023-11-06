@@ -12,11 +12,11 @@ source /home/zhun.zhong/miniconda3/bin/activate zhy
 
 CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='cub' \
- --pseudo_ratio=0.7 \
+ --pseudo_ratio=0.6 \
  --lambda_loss=0.2 \
- --coteaching_epoch_t=20 \
+ --coteaching_epoch_t=15 \
  --coteaching_epoch_i=20 \
  --seed_num=1 \
  --interrupted_path='' \
  --batch_size=128 \
- --experiment_name='cub_vith_fixbackbone_warup_20_20_pseudo(0.7)'
+ --experiment_name='cub_vith_fixbackbone_warup15-20'
