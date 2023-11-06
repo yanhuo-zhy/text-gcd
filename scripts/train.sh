@@ -6,7 +6,7 @@
 #SBATCH -c 5
 #SBATCH --mem=30000
 #SBATCH --gres gpu:1
-#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_imagenet1k_0.txt
+#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_imagenet1k_1.txt
 
 module load gcc/gcc-10.2.0
 # module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
