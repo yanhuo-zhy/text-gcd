@@ -18,7 +18,7 @@ def construct_text(base_text, data):
     attribute_probability_words = ["Likely", "Perhaps", "Could be"]
     
     tags = data['tag'].split('-')[:3]
-    attributes = data['attribute'].split('-')[:1]
+    attributes = data['attribute'].split('-')[:2]
     
     # Constructing tag text
     tag_text = []
