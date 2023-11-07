@@ -59,11 +59,11 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
 
         #-----------------------------------------------------SimGCD cluster loss------------------------------------------------#
 
-        student_out = logits_image / 0.025
+        student_out = logits_image / 0.05
         teacher_out = logits_image.detach()
         student_out = student_out.chunk(2)
 
-        temp = teacher_temp_schedule[epoch]/2
+        temp = teacher_temp_schedule[epoch]
         teacher_out = F.softmax(teacher_out / temp, dim=-1)
         teacher_out = teacher_out.chunk(2)
         loss_cluster = 0
@@ -78,15 +78,15 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
 
         loss_cluster /= n_loss_terms
 
-        avg_probs = (logits_image / 0.025).softmax(dim=1).mean(dim=0)
+        avg_probs = (logits_image / 0.05).softmax(dim=1).mean(dim=0)
         me_max_loss = - torch.sum(torch.log(avg_probs**(-avg_probs))) + math.log(float(len(avg_probs)))
         loss_cluster += 2 * me_max_loss
         #--------------------------------------------------------------------
-        student_out_text = logits_text / 0.025
+        student_out_text = logits_text / 0.05
         teacher_out_text = logits_text.detach()
         student_out_text = student_out_text.chunk(2)
 
-        temp = teacher_temp_schedule[epoch] /2
+        temp = teacher_temp_schedule[epoch]
         teacher_out_text = F.softmax(teacher_out_text / temp, dim=-1)
         teacher_out_text = teacher_out_text.chunk(2)
         loss_cluster_text = 0
@@ -101,7 +101,7 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
 
         loss_cluster_text /= n_loss_terms
 
-        avg_probs_text = (logits_text / 0.025).softmax(dim=1).mean(dim=0)
+        avg_probs_text = (logits_text / 0.05).softmax(dim=1).mean(dim=0)
         me_max_loss_text = - torch.sum(torch.log(avg_probs_text**(-avg_probs_text))) + math.log(float(len(avg_probs_text)))
         loss_cluster_text += 2 * me_max_loss_text
 
@@ -242,9 +242,9 @@ if __name__ == "__main__":
     args, logger, writer = init_experiment(args)
 
     logger.info(f"Loading CLIP (backbone: {args.backbone_name})")
-    clip_model = load_clip_to_cpu(args.backbone_name).float()
-    # model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
-    # clip_model = open_clip.create_model_and_transforms(model_name)[0]
+    # clip_model = load_clip_to_cpu(args.backbone_name).float()
+    model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
+    clip_model = open_clip.create_model_and_transforms(model_name)[0]
 
     logger.info("Building custom CLIP")
     model = CustomCLIP(clip_model, args.num_classes).to(args.device)
