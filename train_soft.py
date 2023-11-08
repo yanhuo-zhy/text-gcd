@@ -129,8 +129,11 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
             soft_pseduo_label_tensor = soft_pseduo_label_tensor / 0.1
             selected_logits_tensor = selected_logits_tensor / 0.1
 
-            criterion = nn.CrossEntropyLoss()
-            loss_pseduo = criterion(selected_logits_tensor, soft_pseduo_label_tensor)
+            teacher_out = F.softmax(soft_pseduo_label_tensor, dim=-1)
+
+            # criterion = nn.CrossEntropyLoss()
+            # loss_pseduo = criterion(selected_logits_tensor, soft_pseduo_label_tensor)
+            loss_pseduo = torch.sum(-teacher_out * F.log_softmax(selected_logits_tensor, dim=-1), dim=-1).mean()
         else:
             loss_pseduo = torch.tensor(0.0,device=logits_image.device)
         # #-------------------------------------------
@@ -147,15 +150,18 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
                     selected_logits_i.append(logits_text[idx])
 
             # 如果存在伪标签，计算交叉熵损失
-            if pseudo_labels_i:
+            if soft_pseduo_label_i:
                 # pseudo_labels_i_tensor = torch.tensor(pseudo_labels_i).to(logits_text.device)  # 将列表转化为张量，并移到适当的设备上
                 soft_pseduo_label_i_tensor = torch.stack(soft_pseduo_label_i)
                 selected_logits_i_tensor = torch.stack(selected_logits_i)  # 将张量列表堆叠成一个新的张量
                 soft_pseduo_label_i_tensor = soft_pseduo_label_i_tensor / 0.1
                 selected_logits_i_tensor = selected_logits_i_tensor / 0.1
 
-                criterion = nn.CrossEntropyLoss()
-                loss_pseduo_i = criterion(selected_logits_i_tensor, soft_pseduo_label_i_tensor)
+                teacher_out = F.softmax(soft_pseduo_label_i_tensor, dim=-1)
+
+                # criterion = nn.CrossEntropyLoss()
+                # loss_pseduo_i = criterion(selected_logits_i_tensor, soft_pseduo_label_i_tensor)
+                loss_pseduo_i = torch.sum(-teacher_out * F.log_softmax(selected_logits_i_tensor, dim=-1), dim=-1).mean()
             else:
                 loss_pseduo_i = torch.tensor(0.0,device=logits_text.device)
             loss_pseduo += loss_pseduo_i
