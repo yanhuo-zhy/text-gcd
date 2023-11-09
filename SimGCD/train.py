@@ -206,7 +206,7 @@ if __name__ == "__main__":
     parser.add_argument('--eval_funcs', nargs='+', help='Which eval functions to use', default=['v2', 'v2b'])
 
     parser.add_argument('--warmup_model_dir', type=str, default=None)
-    parser.add_argument('--dataset_name', type=str, default='cub', help='options: cifar10, cifar100, imagenet_100, cub, scars, fgvc_aricraft, herbarium_19')
+    parser.add_argument('--dataset_name', type=str, default='cifar100', help='options: cifar10, cifar100, imagenet_100, cub, scars, fgvc_aricraft, herbarium_19')
     parser.add_argument('--prop_train_labels', type=float, default=0.5)
     parser.add_argument('--use_ssb_splits', action='store_true', default=False)
 
@@ -228,7 +228,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--fp16', action='store_true', default=False)
     parser.add_argument('--print_freq', default=1, type=int)
-    parser.add_argument('--exp_name', default='SimGCD-test', type=str)
+    parser.add_argument('--exp_name', default='SimGCD-clip-cifar100', type=str)
 
     # ----------------------
     # INIT
