@@ -13,7 +13,7 @@ cub_root = '/db/pszzz/NCD_dataset/cub'
 aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
 
 # car_root = '/home/zhun.zhong/GCD_dataset'
-car_root = '/db/pszzz/NCD_dataset'
+car_root = '/db/pszzz/NCD_dataset/scars'
 
 herbarium_dataroot = '${DATASET_DIR}/herbarium_19'
 imagenet_root = '${DATASET_DIR}/ImageNet'
