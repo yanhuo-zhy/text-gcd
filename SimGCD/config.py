@@ -20,6 +20,10 @@ imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 
 oxford_pet_root = '/db/pszzz/NCD_dataset'
 
+oxford_flowers_root = '/db/pszzz/NCD_dataset'
+
+food_101_root = '/db/pszzz/NCD_dataset/food-101'
+
 # OSR Split dir
 osr_split_dir = 'data/ssb_splits'
 
