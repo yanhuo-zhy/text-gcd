@@ -16,7 +16,7 @@ aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
 car_root = '/db/pszzz/NCD_dataset/stanford_cars'
 
 herbarium_dataroot = '${DATASET_DIR}/herbarium_19'
-imagenet_root = '${DATASET_DIR}/ImageNet'
+imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 
 # OSR Split dir
 osr_split_dir = 'data/ssb_splits'
