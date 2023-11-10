@@ -1,19 +1,19 @@
 # -----------------
 # DATASET ROOTS
 # -----------------
-cifar_10_root = '${DATASET_DIR}/cifar10'
-cifar_100_root = '${DATASET_DIR}/cifar100'
-cub_root = '/wang_hp/zhy/data'
-aircraft_root = '${DATASET_DIR}/fgvc-aircraft-2013b'
+cifar_10_root = '/db/psawl'
+cifar_100_root = '/db/psawl'
+cub_root = '/db/psawl/cub'
+aircraft_root = '/db/psawl/fgvc_aircraft/fgvc-aircraft-2013b'
 car_root = '/wang_hp/zhy/data/stanford_cars'
-herbarium_dataroot = '${DATASET_DIR}/herbarium_19'
-imagenet_root = '${DATASET_DIR}/ImageNet'
+herbarium_dataroot = ''
+imagenet_root = ''
 
-oxford_pet_root = '/wang_hp/zhy/data'
+oxford_pet_root = '/db/psawl/oxford_pets'
 
-oxford_flowers_root = '/wang_hp/zhy/data'
+oxford_flowers_root = '/db/psawl/oxford_flowers'
 
-food_101_root = '/wang_hp/zhy/data/food-101'
+food_101_root = '/db/psawl/food101'
 
 dino_pretrain_path = '/root/.cache/torch/hub/checkpoints/dino_vitbase16_pretrain.pth'
 

@@ -24,7 +24,8 @@ from config import exp_root, dino_pretrain_path
 # TODO: Debug
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-
+import open_clip
+torch.multiprocessing.set_sharing_strategy('file_system')
 
 class SupConLoss(torch.nn.Module):
     """Supervised Contrastive Learning: https://arxiv.org/pdf/2004.11362.pdf.
@@ -376,7 +377,7 @@ if __name__ == "__main__":
     args.num_labeled_classes = len(args.train_classes)
     args.num_unlabeled_classes = len(args.unlabeled_classes)
 
-    init_experiment(args, runner_name=['metric_learn_gcd'])
+    init_experiment(args, runner_name=['gcd-clip'])
     print(f'Using evaluation function {args.eval_funcs[0]} to print results')
 
     # ----------------------
@@ -388,20 +389,28 @@ if __name__ == "__main__":
         args.crop_pct = 0.875
         pretrain_path = dino_pretrain_path
 
-        model = vits.__dict__['vit_base']()
+        # model = vits.__dict__['vit_base']()
 
-        state_dict = torch.load(pretrain_path, map_location='cpu')
-        model.load_state_dict(state_dict)
+        # state_dict = torch.load(pretrain_path, map_location='cpu')
+        # model.load_state_dict(state_dict)
 
-        if args.warmup_model_dir is not None:
-            print(f'Loading weights from {args.warmup_model_dir}')
-            model.load_state_dict(torch.load(args.warmup_model_dir, map_location='cpu'))
+        # if args.warmup_model_dir is not None:
+        #     print(f'Loading weights from {args.warmup_model_dir}')
+        #     model.load_state_dict(torch.load(args.warmup_model_dir, map_location='cpu'))
 
+        # model.to(device)
+        # args.feat_dim = 768
+
+        ######clip-visual###
+        clip_model = open_clip.create_model_and_transforms('ViT-B-16', pretrained='openai')[0]
+        model = clip_model.visual
         model.to(device)
+        args.feat_dim = 512
+        ######clip-visual###
 
         # NOTE: Hardcoded image size as we do not finetune the entire ViT model
         args.image_size = 224
-        args.feat_dim = 768
+
         args.num_mlp_layers = 3
         args.mlp_out_dim = 65536
 
