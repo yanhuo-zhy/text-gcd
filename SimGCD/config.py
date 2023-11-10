@@ -18,6 +18,8 @@ car_root = '/db/pszzz/NCD_dataset/stanford_cars'
 herbarium_dataroot = '${DATASET_DIR}/herbarium_19'
 imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 
+oxford_pet_root = '/db/pszzz/NCD_dataset'
+
 # OSR Split dir
 osr_split_dir = 'data/ssb_splits'
 

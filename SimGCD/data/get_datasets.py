@@ -6,6 +6,7 @@ from data.stanford_cars import get_scars_datasets
 from data.imagenet import get_imagenet_100_datasets, get_imagenet_1k_datasets
 from data.cub import get_cub_datasets
 from data.fgvc_aircraft import get_aircraft_datasets
+from data.oxford_pets import get_oxford_pets_datasets
 
 from copy import deepcopy
 import pickle
@@ -22,7 +23,8 @@ get_dataset_funcs = {
     'herbarium_19': get_herbarium_datasets,
     'cub': get_cub_datasets,
     'aircraft': get_aircraft_datasets,
-    'scars': get_scars_datasets
+    'scars': get_scars_datasets,
+    'pets': get_oxford_pets_datasets
 }
 
 
@@ -168,6 +170,26 @@ def get_class_splits(args):
 
             args.train_classes = range(100)
             args.unlabeled_classes = range(100, 200)
+
+    elif args.dataset_name == 'pets':
+
+        args.image_size = 224
+        args.train_classes = range(19)
+        args.unlabeled_classes = range(19, 37)
+
+
+    elif args.dataset_name == 'flowers':
+
+        args.image_size = 224
+        args.train_classes = range(51)
+        args.unlabeled_classes = range(51, 102)
+
+
+    elif args.dataset_name == 'food':
+
+        args.image_size = 224
+        args.train_classes = range(51)
+        args.unlabeled_classes = range(51, 101)
 
     else:
 
