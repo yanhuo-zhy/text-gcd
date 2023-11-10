@@ -15,5 +15,5 @@ module load nvidia/cuda-11.1 nvidia/cudnn-v8.1.1.33-forcuda11.0-to-11.2
 source /home/pszzz/miniconda3/bin/activate zhy
 
 CUDA_VISIBLE_DEVICES=0 python SimGCD/train.py \
- --dataset_name='cifar10' \
- --exp_name='SimGCD-clipvitb-cifar10'
+ --dataset_name='cifar100' \
+ --exp_name='SimGCD-clipvitb-cifar100'
