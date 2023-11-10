@@ -10,4 +10,6 @@
 module load cuda/12.1
 source /home/zhun.zhong/miniconda3/bin/activate zhy
 
-CUDA_VISIBLE_DEVICES=0 python SimGCD/train.py 
+CUDA_VISIBLE_DEVICES=0 python SimGCD/train.py \
+ --dataset_name='cub' \
+ --exp_name='SimGCD-clipvitb-cub'

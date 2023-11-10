@@ -1,9 +1,14 @@
 # -----------------
 # DATASET ROOTS
 # -----------------
-cifar_10_root = '${DATASET_DIR}/cifar10'
-cifar_100_root = '/home/zhun.zhong/GCD_dataset/cifar_100'
-cub_root = '/home/zhun.zhong/GCD_dataset/cub'
+# cifar_10_root = '/home/zhun.zhong/GCD_dataset/cifar_10'
+# cifar_100_root = '/home/zhun.zhong/GCD_dataset/cifar_100'
+cifar_10_root = '/db/pszzz/NCD_dataset/cifar10'
+cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
+
+# cub_root = '/home/zhun.zhong/GCD_dataset/cub'
+cub_root = '/db/pszzz/NCD_dataset/cub'
+
 aircraft_root = '${DATASET_DIR}/fgvc-aircraft-2013b'
 car_root = '/wang_hp/zhy/gcd-task/data/cars'
 herbarium_dataroot = '${DATASET_DIR}/herbarium_19'

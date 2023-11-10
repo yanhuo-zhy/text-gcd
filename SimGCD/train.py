@@ -206,7 +206,7 @@ if __name__ == "__main__":
     parser.add_argument('--eval_funcs', nargs='+', help='Which eval functions to use', default=['v2', 'v2b'])
 
     parser.add_argument('--warmup_model_dir', type=str, default=None)
-    parser.add_argument('--dataset_name', type=str, default='cifar100', help='options: cifar10, cifar100, imagenet_100, cub, scars, fgvc_aricraft, herbarium_19')
+    parser.add_argument('--dataset_name', type=str, default='cub', help='options: cifar10, cifar100, imagenet_100, cub, scars, fgvc_aricraft, herbarium_19')
     parser.add_argument('--prop_train_labels', type=float, default=0.5)
     parser.add_argument('--use_ssb_splits', action='store_true', default=False)
 
@@ -251,14 +251,19 @@ if __name__ == "__main__":
     args.interpolation = 3
     args.crop_pct = 0.875
 
+    ## BACKBONE
+    # dino-vitb
     # backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
+    # args.feat_dim = 768
     # clip-vith
-    model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
-    clip_model = open_clip.create_model_and_transforms(model_name)[0]
-    backbone = clip_model.visual
-    # clip-vitb
+    # model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
     # clip_model = open_clip.create_model_and_transforms(model_name)[0]
     # backbone = clip_model.visual
+    # args.feat_dim = 1024
+    # clip-vitb
+    clip_model = open_clip.create_model_and_transforms('ViT-B-16', pretrained='openai')[0]
+    backbone = clip_model.visual
+    args.feat_dim = 512
 
     if args.warmup_model_dir is not None:
         args.logger.info(f'Loading weights from {args.warmup_model_dir}')
@@ -266,8 +271,7 @@ if __name__ == "__main__":
     
     # NOTE: Hardcoded image size as we do not finetune the entire ViT model
     args.image_size = 224
-    # args.feat_dim = 768
-    args.feat_dim = 1024
+
     args.num_mlp_layers = 3
     args.mlp_out_dim = args.num_labeled_classes + args.num_unlabeled_classes
 
