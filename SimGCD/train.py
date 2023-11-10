@@ -228,7 +228,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--fp16', action='store_true', default=False)
     parser.add_argument('--print_freq', default=1, type=int)
-    parser.add_argument('--exp_name', default='SimGCD-clip-cifar100', type=str)
+    parser.add_argument('--exp_name', default='SimGCD-clip-cifar100_nofixbackbone', type=str)
 
     # ----------------------
     # INIT
@@ -252,9 +252,13 @@ if __name__ == "__main__":
     args.crop_pct = 0.875
 
     # backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
+    # clip-vith
     model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
     clip_model = open_clip.create_model_and_transforms(model_name)[0]
     backbone = clip_model.visual
+    # clip-vitb
+    # clip_model = open_clip.create_model_and_transforms(model_name)[0]
+    # backbone = clip_model.visual
 
     if args.warmup_model_dir is not None:
         args.logger.info(f'Loading weights from {args.warmup_model_dir}')
@@ -280,13 +284,13 @@ if __name__ == "__main__":
     #         if block_num >= args.grad_from_block:
     #             m.requires_grad = True
 
-    # for name, param in backbone.named_parameters():
-    #     if "resblocks.11" in name:
-    #         param.requires_grad_(True)
-    #         print(name)
-    #     if name=="proj":
-    #         param.requires_grad_(True)
-    #         print(name)
+    for name, param in backbone.named_parameters():
+        if "resblocks.11" in name:
+            param.requires_grad_(True)
+            print(name)
+        if name=="proj":
+            param.requires_grad_(True)
+            print(name)
 
     
     args.logger.info('model build')

@@ -6,7 +6,7 @@
 #SBATCH -N 1
 #SBATCH --mem=20000
 #SBATCH --gres=gpu:a100.80:1
-#SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp_cifar100_vith0.txt
+#SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp_cifar100_vith1.txt
 module load cuda/12.1
 source /home/zhun.zhong/miniconda3/bin/activate zhy
 
@@ -18,5 +18,5 @@ CUDA_VISIBLE_DEVICES=0 python train_vith.py \
  --coteaching_epoch_i=15 \
  --seed_num=1 \
  --interrupted_path='' \
- --batch_size=128 \
- --experiment_name='cifar100_vith_fixbacbone'
+ --batch_size=110 \
+ --experiment_name='cifar100_vith_nofixbacbone'
