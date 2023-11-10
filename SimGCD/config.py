@@ -9,8 +9,12 @@ cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
 # cub_root = '/home/zhun.zhong/GCD_dataset/cub'
 cub_root = '/db/pszzz/NCD_dataset/cub'
 
-aircraft_root = '${DATASET_DIR}/fgvc-aircraft-2013b'
-car_root = '/wang_hp/zhy/gcd-task/data/cars'
+# aircraft_root = '/home/zhun.zhong/GCD_dataset/fgvc_aircraft/fgvc-aircraft-2013b'
+aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
+
+# car_root = '/home/zhun.zhong/GCD_dataset'
+car_root = '/db/pszzz/NCD_dataset'
+
 herbarium_dataroot = '${DATASET_DIR}/herbarium_19'
 imagenet_root = '${DATASET_DIR}/ImageNet'
 
