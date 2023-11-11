@@ -3,7 +3,7 @@ from data.data_utils import MergedDataset
 from data.cifar import get_cifar_10_datasets, get_cifar_100_datasets
 from data.herbarium_19 import get_herbarium_datasets
 from data.stanford_cars import get_scars_datasets
-from data.imagenet import get_imagenet_100_datasets
+from data.imagenet import get_imagenet_100_datasets, get_imagenet_1k_datasets
 from data.cub import get_cub_datasets
 from data.fgvc_aircraft import get_aircraft_datasets
 
@@ -33,7 +33,8 @@ sub_sample_class_funcs = {
     'scars': subsample_dataset_scars,
     'flowers': get_oxford_flowers_datasets,
     'pets': get_oxford_pets_datasets,
-    'food': get_food_101_datasets
+    'food': get_food_101_datasets,
+    'imagenet_1k': get_imagenet_1k_datasets
 }
 
 get_dataset_funcs = {
@@ -46,7 +47,8 @@ get_dataset_funcs = {
     'scars': get_scars_datasets,
     'flowers': get_oxford_flowers_datasets,
     'pets': get_oxford_pets_datasets,
-    'food': get_food_101_datasets
+    'food': get_food_101_datasets,
+    'imagenet_1k': get_imagenet_1k_datasets
 }
 
 
@@ -137,6 +139,12 @@ def get_class_splits(args):
         args.image_size = 224
         args.train_classes = range(50)
         args.unlabeled_classes = range(50, 100)
+
+    elif args.dataset_name == 'imagenet_1k':
+
+        args.image_size = 224
+        args.train_classes = range(500)
+        args.unlabeled_classes = range(500, 1000)
 
     elif args.dataset_name == 'scars':
 
