@@ -7,7 +7,7 @@ cub_root = '/db/psawl/cub'
 aircraft_root = '/db/psawl/fgvc_aircraft/fgvc-aircraft-2013b'
 car_root = '/db/psawl/stanford_cars'
 herbarium_dataroot = ''
-imagenet_root = ''
+imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 
 oxford_pet_root = '/db/psawl'
 
