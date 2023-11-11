@@ -61,6 +61,39 @@ class CustomCLIP(nn.Module):
 
         return logits_image, logits_text, image_features, text_features
 
+class CustomCLIP_TwoImage(nn.Module):
+    def __init__(self, clip_model1, clip_model2, class_nums):
+        super().__init__()
+        self.model1 = clip_model1
+        self.model2 = clip_model2
+        self.outputdim = clip_model1.visual.output_dim
+
+        self.image_classifier1 = nn.utils.weight_norm(nn.Linear(self.outputdim, class_nums, bias=False))
+        self.image_classifier1.weight_g.data.fill_(1)
+        self.image_classifier1.weight_g.requires_grad = False
+
+        self.image_classifier2 = nn.utils.weight_norm(nn.Linear(self.outputdim, class_nums, bias=False))
+        self.image_classifier2.weight_g.data.fill_(1)
+        self.image_classifier2.weight_g.requires_grad = False
+
+    def encode_image1(self, image):
+        image_features = self.model1.encode_image(image)
+        image_features = image_features / image_features.norm(dim=-1, keepdim=True)
+        return image_features
+
+    def encode_image2(self, image):
+        image_features = self.model2.encode_image(image)
+        image_features = image_features / image_features.norm(dim=-1, keepdim=True)
+        return image_features
+
+    def forward(self, images1, images2):
+        image_features1 = self.encode_image1(images1)
+        image_features2 = self.encode_image2(images2)
+
+        logits_image1 = self.image_classifier1(image_features1)
+        logits_image2 = self.image_classifier2(image_features2)
+
+        return logits_image1, logits_image2, image_features1, image_features2
 
 class Solarize(object):
     def __call__(self, img):

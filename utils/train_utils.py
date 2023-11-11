@@ -189,6 +189,59 @@ def get_pseudolabel(model, dataloader, pseudo_num):
 
     return image_to_class_map, image_to_class_map_i
 
+def get_pseudolabel_twoimage(model, dataloader, pseudo_num):
+
+    logits_image_list = []
+    logits_text_list = []
+    image_id_list = []
+
+    for images, _, image_id, _, _ in dataloader:
+        image_id_list.append(image_id)
+        images = images.cuda(non_blocking=True)
+        # tag_token = tag_token.squeeze(1).cuda(non_blocking=True)
+
+        with torch.no_grad():
+            logits_image, logits_text, _, _ = model(images, images)
+        
+        logits_image_list.append(logits_image)
+        logits_text_list.append(logits_text)
+
+    logits_image_all = torch.cat(logits_image_list, dim=0)
+    logits_text_all = torch.cat(logits_text_list, dim=0)
+
+    logit_scale = 100.0
+
+    #---------------------------------------------------
+    logits_text_all = F.softmax(logit_scale * logits_text_all, dim=-1)
+    print("logits_text.shape", logits_text_all.shape)
+
+    top_k_per_text = [logits_text_all[:, i].argsort(descending=True)[:pseudo_num] for i in range(logits_text_all.shape[1])]
+
+    # 创建字典
+    image_to_class_map = {}
+    image_id_flattened = [img_id for sublist in image_id_list for img_id in sublist]  # 展平列表
+    for idx, image_indices in enumerate(top_k_per_text):
+
+        for image_index in image_indices:
+            image_id = image_id_flattened[image_index]
+            image_to_class_map[image_id] = idx
+
+    #----------------------------------------------------
+    logits_image_all = F.softmax(logit_scale * logits_image_all, dim=-1)
+    print("logits_image.shape", logits_image_all.shape)
+    top_k_per_images = [logits_image_all[:, i].argsort(descending=True)[:pseudo_num] for i in range(logits_image_all.shape[1])]
+
+    # 创建字典
+    image_to_class_map_i = {}
+    # image_id_flattened = [img_id for sublist in image_id_list for img_id in sublist]  # 展平列表
+    for idx, image_indices in enumerate(top_k_per_images):
+        # if idx >= old_class:
+        for image_index in image_indices:
+            image_id = image_id_flattened[image_index]
+            image_to_class_map_i[image_id] = idx
+
+    return image_to_class_map, image_to_class_map_i
+
 def evaluate_accuracy(preds, targets, mask):
     # 预测精度
     mask = mask.astype(bool)
@@ -258,6 +311,34 @@ def evaluate_two(model, test_loader, train_classes=None):
 
     return total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image
 
+def evaluate_two_images(model, test_loader, train_classes=None):
+    model.eval()
+
+    pred_text, pred_image, targets = [], [], []
+    mask = np.array([])
+    for _, (images, label, _, tag_token, _) in enumerate(tqdm(test_loader)):
+        images = images.cuda(non_blocking=True)
+        # tag_token = tag_token.squeeze(1).cuda(non_blocking=True)
+        with torch.no_grad():
+            logits_image, logits_text, _, _ = model(images, images)
+
+            pred_text.append(logits_text.argmax(1).cpu().numpy())
+            pred_image.append(logits_image.argmax(1).cpu().numpy())
+            targets.append(label.cpu().numpy())
+            mask = np.append(mask, np.array([True if x.item() in train_classes else False for x in label]))
+
+    pred_text = np.concatenate(pred_text)
+    pred_image = np.concatenate(pred_image)
+    targets = np.concatenate(targets)
+    
+    # 预测精度-text
+    total_acc_text, old_acc_text, new_acc_text = evaluate_accuracy(pred_text, targets, mask)
+
+    # 预测精度-image
+    total_acc_image, old_acc_image, new_acc_image = evaluate_accuracy(pred_image, targets, mask)
+
+    return total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image
+
 def evaluate_weighted(model, test_loader, train_classes=None):
     model.eval()
 
@@ -268,6 +349,34 @@ def evaluate_weighted(model, test_loader, train_classes=None):
         tag_token = tag_token.squeeze(1).cuda(non_blocking=True)
         with torch.no_grad():
             logits_image, logits_text, _, _ = model(images, tag_token)
+
+            classifier_image_probs = F.softmax(logits_image, dim=-1)
+            classifier_text_probs = F.softmax(logits_text, dim=-1)
+
+            averaged_probs = 0.5 * classifier_image_probs + 0.5 * classifier_text_probs
+
+            preds.append(averaged_probs.argmax(1).cpu().numpy())
+            targets.append(label.cpu().numpy())
+            mask = np.append(mask, np.array([True if x.item() in train_classes else False for x in label]))
+
+    preds = np.concatenate(preds)
+    targets = np.concatenate(targets)
+
+    # 预测精度
+    total_acc, old_acc, new_acc = evaluate_accuracy(preds, targets, mask)
+
+    return total_acc, old_acc, new_acc
+
+def evaluate_weighted_twoimage(model, test_loader, train_classes=None):
+    model.eval()
+
+    preds, targets = [], []
+    mask = np.array([])
+    for batch_idx, (images, label, _, _, _) in enumerate(tqdm(test_loader)):
+        images = images.cuda(non_blocking=True)
+        # tag_token = tag_token.squeeze(1).cuda(non_blocking=True)
+        with torch.no_grad():
+            logits_image, logits_text, _, _ = model(images, images)
 
             classifier_image_probs = F.softmax(logits_image, dim=-1)
             classifier_text_probs = F.softmax(logits_text, dim=-1)
