@@ -17,6 +17,7 @@ from util.cluster_and_log_utils import log_accs_from_preds
 from config import exp_root
 from model import DINOHead, info_nce_logits, SupConLoss, DistillLoss, ContrastiveLearningViewGenerator, get_params_groups
 import open_clip
+torch.multiprocessing.set_sharing_strategy('file_system')
 
 def train(student, train_loader, test_loader, unlabelled_train_loader, args):
     params_groups = get_params_groups(student)
