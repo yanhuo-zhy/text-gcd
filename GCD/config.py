@@ -5,7 +5,7 @@ cifar_10_root = '/db/psawl'
 cifar_100_root = '/db/psawl'
 cub_root = '/db/psawl/cub'
 aircraft_root = '/db/psawl/fgvc_aircraft/fgvc-aircraft-2013b'
-car_root = '/wang_hp/zhy/data/stanford_cars'
+car_root = '/db/psawl/stanford_cars'
 herbarium_dataroot = ''
 imagenet_root = ''
 
