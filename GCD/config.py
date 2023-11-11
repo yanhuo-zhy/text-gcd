@@ -9,9 +9,9 @@ car_root = '/db/psawl/stanford_cars'
 herbarium_dataroot = ''
 imagenet_root = ''
 
-oxford_pet_root = '/db/psawl/oxford_pets'
+oxford_pet_root = '/db/psawl'
 
-oxford_flowers_root = '/db/psawl/oxford_flowers'
+oxford_flowers_root = '/db/psawl'
 
 food_101_root = '/db/psawl/food101'
 
