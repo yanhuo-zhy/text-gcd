@@ -95,6 +95,40 @@ class CustomCLIP_TwoImage(nn.Module):
 
         return logits_image1, logits_image2, image_features1, image_features2
 
+class CustomCLIP_TwoText(nn.Module):
+    def __init__(self, clip_model1, clip_model2, class_nums):
+        super().__init__()
+        self.model1 = clip_model1
+        self.model2 = clip_model2
+        self.outputdim = clip_model1.visual.output_dim
+
+        self.text_classifier1 = nn.utils.weight_norm(nn.Linear(self.outputdim, class_nums, bias=False))
+        self.text_classifier1.weight_g.data.fill_(1)
+        self.text_classifier1.weight_g.requires_grad = False
+
+        self.text_classifier2 = nn.utils.weight_norm(nn.Linear(self.outputdim, class_nums, bias=False))
+        self.text_classifier2.weight_g.data.fill_(1)
+        self.text_classifier2.weight_g.requires_grad = False
+
+    def encode_text1(self, tokens):
+        text_features = self.model1.encode_text(tokens)
+        text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+        return text_features
+    
+    def encode_text2(self, tokens):
+        text_features = self.model2.encode_text(tokens)
+        text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+        return text_features
+
+    def forward(self, text1, text2):
+        text_features1 = self.encode_text1(text1)
+        text_features2 = self.encode_text2(text2)
+
+        logits_text1 = self.text_classifier1(text_features1)
+        logits_text2 = self.text_classifier2(text_features2)
+
+        return logits_text1, logits_text2, text_features1, text_features2
+
 class Solarize(object):
     def __call__(self, img):
         return ImageOps.solarize(img)
@@ -200,6 +234,26 @@ class TextViewGenerator(object):
         aug_text0 = tokenize_with_augmentation(text)
         aug_text1 = tokenize_with_augmentation(text)
         return [aug_text0, aug_text1]
+
+class TextViewGenerator_TwoText(object):
+    """Take two random crops of one image as the query and key."""
+
+    def __init__(self, alpha_sr=0, alpha_ri=0, alpha_rs=0, alpha_rd=0, seed=0):
+        # self.augmenter_spelling = naw.SpellingAug(aug_p=0.05)
+        self.alpha_sr = alpha_sr
+        self.alpha_ri = alpha_ri
+        self.alpha_rs = alpha_rs
+        self.alpha_rd = alpha_rd
+        self.seed = seed
+
+    def __call__(self, text):
+        # return [text, self.augmenter_spelling.augment(text)]
+        # aug_text = eda(text, alpha_sr=self.alpha_sr, alpha_ri=self.alpha_ri, alpha_rs=self.alpha_rs, p_rd=self.alpha_rd, num_aug=2, seed=self.seed)
+        aug_text0 = tokenize_with_augmentation(text)
+        aug_text1 = tokenize_with_augmentation(text)
+        aug_text2 = tokenize_with_augmentation(text)
+        aug_text3 = tokenize_with_augmentation(text)
+        return [aug_text0, aug_text1, aug_text2, aug_text3]
 
 # lr scheduler for classifier
 class CustomCosineAnnealingLR(_LRScheduler):
