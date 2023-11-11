@@ -421,11 +421,19 @@ if __name__ == "__main__":
             m.requires_grad = False
 
         # Only finetune layers from block 'args.grad_from_block' onwards
-        for name, m in model.named_parameters():
-            if 'block' in name:
-                block_num = int(name.split('.')[1])
-                if block_num >= args.grad_from_block:
-                    m.requires_grad = True
+        # for name, m in model.named_parameters():
+        #     if 'block' in name:
+        #         block_num = int(name.split('.')[1])
+        #         if block_num >= args.grad_from_block:
+        #             m.requires_grad = True
+
+        for name, param in model.named_parameters():
+            if "resblocks.11" in name:
+                param.requires_grad_(True)
+                print(name)
+            if name=="proj":
+                param.requires_grad_(True)
+                print(name)
 
     else:
 
