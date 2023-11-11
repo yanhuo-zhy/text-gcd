@@ -254,12 +254,12 @@ if __name__ == "__main__":
         param.requires_grad_(False)
 
     for name, param in model.named_parameters():
-        if "transformer.resblocks.11" in name:
-            param.requires_grad_(True)
-        if "visual.proj" in name:
-            param.requires_grad_(True)
-        if "text_projection" in name:
-            param.requires_grad_(True)
+        # if "transformer.resblocks.11" in name:
+        #     param.requires_grad_(True)
+        # if "visual.proj" in name:
+        #     param.requires_grad_(True)
+        # if "text_projection" in name:
+        #     param.requires_grad_(True)
         if "image_classifier" in name:
             param.requires_grad_(True)
         if "text_classifier" in name:
