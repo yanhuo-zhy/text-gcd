@@ -33,7 +33,7 @@ food_101_root = '/home/zhun.zhong/GCD_dataset/food_101'
 osr_split_dir = 'data/ssb_splits'
 
 # tag root
-cub_tag_root = 'tag/coca_cub_tags_attributes.txt'
+cub_tag_root = 'tag/coca_cub_tags_attributes_nonorm.txt'
 aircraft_tag_root = 'tag/aircraft_tags_attributes.txt'
 car_tag_root = 'tag/scars_tags_attributes.txt'
 cifar_10_tag_root = 'tag/cifar10_tags_attributes.txt'
