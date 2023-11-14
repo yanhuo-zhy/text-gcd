@@ -6,7 +6,7 @@
 #SBATCH -c 5
 #SBATCH --mem=20000
 #SBATCH --gres gpu:1
-#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_cifar100_flip0.txt
+#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_cifar100_flip1.txt
 
 module load gcc/gcc-10.2.0
 # module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
@@ -20,7 +20,7 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --lambda_loss=0.2 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --seed_num=0 \
+ --seed_num=1 \
  --interrupted_path='' \
  --batch_size=128 \
- --experiment_name='cifar100_coca_nonorm_seed0'
+ --experiment_name='cifar100_coca_nonorm_seed1'
