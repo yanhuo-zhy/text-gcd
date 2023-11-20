@@ -23,5 +23,5 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --seed_num=1 \
  --interrupted_path='' \
  --batch_size=128 \
- --prop_train_labels=0.0 \
- --experiment_name='cub_prop_train_labels_0'
+ --prop_train_labels=0.1 \
+ --experiment_name='cub_prop_train_labels_0.1'
