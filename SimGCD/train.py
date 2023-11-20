@@ -253,18 +253,20 @@ if __name__ == "__main__":
     args.crop_pct = 0.875
 
     ## BACKBONE
-    # dino-vitb
-    # backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
-    # args.feat_dim = 768
-    # clip-vith
+    ## dino-vitb
+    backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
+    args.feat_dim = 768
+
+    ## clip-vith
     # model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
     # clip_model = open_clip.create_model_and_transforms(model_name)[0]
     # backbone = clip_model.visual
     # args.feat_dim = 1024
-    # clip-vitb
-    clip_model = open_clip.create_model_and_transforms('ViT-B-16', pretrained='openai')[0]
-    backbone = clip_model.visual
-    args.feat_dim = 512
+
+    ## clip-vitb
+    # clip_model = open_clip.create_model_and_transforms('ViT-B-16', pretrained='openai')[0]
+    # backbone = clip_model.visual
+    # args.feat_dim = 512
 
     if args.warmup_model_dir is not None:
         args.logger.info(f'Loading weights from {args.warmup_model_dir}')
