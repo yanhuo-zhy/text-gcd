@@ -174,8 +174,8 @@ def get_class_splits(args):
 
         else:
 
-            args.train_classes = range(20)
-            args.unlabeled_classes = range(20, 200)
+            args.train_classes = range(40)
+            args.unlabeled_classes = range(40, 200)
 
 
     elif args.dataset_name == 'pets':
