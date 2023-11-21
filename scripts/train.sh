@@ -6,7 +6,7 @@
 #SBATCH -c 5
 #SBATCH --mem=20000
 #SBATCH --gres gpu:1
-#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_cifar100_probtrain6.txt
+#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_cifar100_probtrain7.txt
 
 module load gcc/gcc-10.2.0
 # module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
@@ -23,5 +23,5 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --seed_num=0 \
  --interrupted_path='' \
  --batch_size=128 \
- --prop_train_labels=0.3 \
- --experiment_name='cifar100_prop_train_labels_0.3_seed0'
+ --prop_train_labels=0.4 \
+ --experiment_name='cifar100_prop_train_labels_0.4_seed0'
