@@ -254,7 +254,7 @@ if __name__ == "__main__":
     args.interpolation = 3
     args.crop_pct = 0.875
 
-    ## BACKBONE
+    ## BACKBONE note the backbone.parameters!!!!
     ## dino-vitb
     backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
     args.feat_dim = 768
@@ -287,19 +287,19 @@ if __name__ == "__main__":
         m.requires_grad = False
 
     # Only finetune layers from block 'args.grad_from_block' onwards
-    # for name, m in backbone.named_parameters():
-    #     if 'block' in name:
-    #         block_num = int(name.split('.')[1])
-    #         if block_num >= args.grad_from_block:
-    #             m.requires_grad = True
+    for name, m in backbone.named_parameters():
+        if 'block' in name:
+            block_num = int(name.split('.')[1])
+            if block_num >= args.grad_from_block:
+                m.requires_grad = True
 
-    for name, param in backbone.named_parameters():
-        if "resblocks.11" in name:
-            param.requires_grad_(True)
-            print(name)
-        if name=="proj":
-            param.requires_grad_(True)
-            print(name)
+    # for name, param in backbone.named_parameters():
+    #     if "resblocks.11" in name:
+    #         param.requires_grad_(True)
+    #         print(name)
+    #     if name=="proj":
+    #         param.requires_grad_(True)
+    #         print(name)
 
     
     args.logger.info('model build')
