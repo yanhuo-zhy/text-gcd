@@ -200,8 +200,8 @@ class FeatureBank(nn.Module):
         self.ptr[0] = (ptr + batch_size) % self.K
 
 if __name__ == "__main__":
-    setup_seed(0)
     parser = argparse.ArgumentParser(description='cluster', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--seed_num', type=int, default=0)
     parser.add_argument('--batch_size', default=128, type=int)
     parser.add_argument('--num_workers', default=8, type=int)
     parser.add_argument('--eval_funcs', nargs='+', help='Which eval functions to use', default=['v2', 'v2b'])
@@ -209,6 +209,7 @@ if __name__ == "__main__":
     parser.add_argument('--warmup_model_dir', type=str, default=None)
     parser.add_argument('--dataset_name', type=str, default='cub', help='options: cifar10, cifar100, imagenet_100, cub, scars, fgvc_aricraft, herbarium_19')
     parser.add_argument('--prop_train_labels', type=float, default=0.5)
+    parser.add_argument('--prop_knownclass', type=float, default=0.5)
     parser.add_argument('--use_ssb_splits', action='store_true', default=False)
 
     parser.add_argument('--grad_from_block', type=int, default=11)
@@ -235,6 +236,7 @@ if __name__ == "__main__":
     # INIT
     # ----------------------
     args = parser.parse_args()
+    setup_seed(args.seed_num)
     device = torch.device('cuda:0')
     args = get_class_splits(args)
 

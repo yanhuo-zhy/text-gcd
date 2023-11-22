@@ -6,11 +6,38 @@
 #SBATCH -N 1
 #SBATCH --mem=20000
 #SBATCH --gres=gpu:a100.80:1
-#SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp_simgcd_cifar100_vith_nofix.txt
+#SBATCH -o /home/zhun.zhong/hyzheng/text-gcd/temp/temp_simgcd_cub_prop_trainlabels0.txt
 module load cuda/12.1
 source /home/zhun.zhong/miniconda3/bin/activate zhy
 
-CUDA_VISIBLE_DEVICES=0 python SimGCD/train_vith.py \
- --dataset_name='cifar100' \
- --exp_name='SimGCD-clipvith-cifar100-nofix' \
+CUDA_VISIBLE_DEVICES=0 python SimGCD/train.py \
+ --dataset_name='cub' \
+ --seed_num=0 \
+ --prop_train_labels=0.1 \
+ --prop_knownclass=0.5 \
+ --exp_name='SimGCD_prob_trainlabels(0.1)_seed0' \
+ --print_freq=20
+
+CUDA_VISIBLE_DEVICES=0 python SimGCD/train.py \
+ --dataset_name='cub' \
+ --seed_num=0 \
+ --prop_train_labels=0.2 \
+ --prop_knownclass=0.5 \
+ --exp_name='SimGCD_prob_trainlabels(0.2)_seed0' \
+ --print_freq=20
+
+CUDA_VISIBLE_DEVICES=0 python SimGCD/train.py \
+ --dataset_name='cub' \
+ --seed_num=0 \
+ --prop_train_labels=0.3 \
+ --prop_knownclass=0.5 \
+ --exp_name='SimGCD_prob_trainlabels(0.3)_seed0' \
+ --print_freq=20
+
+CUDA_VISIBLE_DEVICES=0 python SimGCD/train.py \
+ --dataset_name='cub' \
+ --seed_num=0 \
+ --prop_train_labels=0.4 \
+ --prop_knownclass=0.5 \
+ --exp_name='SimGCD_prob_trainlabels(0.4)_seed0' \
  --print_freq=20
