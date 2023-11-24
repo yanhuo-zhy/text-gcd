@@ -17,9 +17,9 @@ from data.fgvc_aircraft import FGVCAircraft_LENS
 from data.cifar import CustomCIFAR10_LENS, CustomCIFAR100_LENS
 from data.herbarium_19 import HerbariumDataset19_LENS
 from data.imagenet import ImageNetDataset_LENS
-from data.oxford_pets import OxfordPet_LENS
-from data.oxford_flowers import OxfordFlowers_LENS
-from data.food101 import Food101_LENS
+# from data.oxford_pets import OxfordPet_LENS
+# from data.oxford_flowers import OxfordFlowers_LENS
+# from data.food101 import Food101_LENS
 
 from transformers import Blip2Processor, Blip2ForConditionalGeneration
 
@@ -31,9 +31,9 @@ dataset_map = {
     'cifar100': CustomCIFAR100_LENS,
     'herbarium_19': HerbariumDataset19_LENS,
     'imagenet': ImageNetDataset_LENS,
-    'pets' : OxfordPet_LENS,
-    'flowers' : OxfordFlowers_LENS,
-    'food' : Food101_LENS
+    # 'pets' : OxfordPet_LENS,
+    # 'flowers' : OxfordFlowers_LENS,
+    # 'food' : Food101_LENS
 }
 
 def flatten(l):
