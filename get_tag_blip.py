@@ -113,7 +113,7 @@ class Lens(nn.Module):
             captions_text[i : i + num_captions]
             for i in range(0, len(captions_text), num_captions)
         ]
-        samples["tag"] = captions_text
+        samples["tags"] = captions_text
         return samples
     
     def forward_attribute(
@@ -146,7 +146,7 @@ class Lens(nn.Module):
             captions_text[i : i + num_captions]
             for i in range(0, len(captions_text), num_captions)
         ]
-        samples["attribute"] = captions_text
+        samples["attributes"] = captions_text
         return samples
 
 class LensProcessor:
