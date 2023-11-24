@@ -108,7 +108,7 @@ class Lens(nn.Module):
         captions_text = self.blip_processor.batch_decode(
             caption_ids, skip_special_tokens=True
         )
-        captions_text = [caption[25:].strip() for caption in captions_text]
+        captions_text = [caption.strip() for caption in captions_text]
         captions_text = [
             captions_text[i : i + num_captions]
             for i in range(0, len(captions_text), num_captions)
@@ -141,7 +141,7 @@ class Lens(nn.Module):
         captions_text = self.blip_processor.batch_decode(
             caption_ids, skip_special_tokens=True
         )
-        captions_text = [caption[28:].strip() for caption in captions_text]
+        captions_text = [caption.strip() for caption in captions_text]
         captions_text = [
             captions_text[i : i + num_captions]
             for i in range(0, len(captions_text), num_captions)
