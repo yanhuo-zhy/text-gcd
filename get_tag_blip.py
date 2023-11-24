@@ -258,7 +258,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='cluster', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('--batch_size', default=40, type=int)
+    parser.add_argument('--batch_size', default=100, type=int)
     parser.add_argument('--gamma', type=float, default=0.1)
     parser.add_argument('--momentum', type=float, default=0.9)
     parser.add_argument('--weight_decay', type=float, default=1e-4)
