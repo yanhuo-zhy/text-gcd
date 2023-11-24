@@ -283,11 +283,11 @@ if __name__ == "__main__":
     dataloader = DataLoader(lendataset, batch_size=args.batch_size, shuffle=False)
 
     # 检查是否有中断文件和索引
-    output_file = f'{args.dataset_name}_tags_attributes.txt'
+    output_file = f'bli2_{args.dataset_name}_tags_attributes.txt'
     start_idx = 0
-    if os.path.exists(output_file + '.idx'):
-        with open(output_file + '.idx', 'r') as f_idx:
-            start_idx = int(f_idx.read().strip())
+    # if os.path.exists(output_file + '.idx'):
+    #     with open(output_file + '.idx', 'r') as f_idx:
+    #         start_idx = int(f_idx.read().strip())
 
     # dataloader = DataLoader(lendataset, batch_size=args.batch_size, shuffle=False)
 
