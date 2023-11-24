@@ -247,7 +247,7 @@ def generate_tags_attributes_for_batches(dataloader, lens, output_file, start_id
             # 更新当前处理到的batch索引
             with open(output_file + '.idx', 'w') as f_idx:
                 f_idx.write(str(batch_idx + 1))
-        break
+        # break
 
 def save_to_file(data, filepath, mode='a'):
     with open(filepath, mode) as f:
