@@ -1,10 +1,10 @@
 # -----------------
 # DATASET ROOTS
 # -----------------
-cifar_10_root = '/home/zhun.zhong/GCD_dataset/cifar_10'
-cifar_100_root = '/home/zhun.zhong/GCD_dataset/cifar_100'
-# cifar_10_root = '/db/psawl'
-# cifar_100_root = '/db/psawl'
+# cifar_10_root = '/home/zhun.zhong/GCD_dataset/cifar_10'
+# cifar_100_root = '/home/zhun.zhong/GCD_dataset/cifar_100'
+cifar_10_root = '/db/psawl'
+cifar_100_root = '/db/psawl'
 # cifar_10_root = '/db/pszzz/NCD_dataset/cifar10'
 # cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
 
