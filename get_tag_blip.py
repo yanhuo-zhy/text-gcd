@@ -159,13 +159,13 @@ class LensProcessor:
     def __call__(self, images):
 
         outputs_name = self.blip_processor(
-            images=images, text=["The name of this bird is"] * len(images), return_tensors="pt"
+            images=images, text=["The name of this object is"] * len(images), return_tensors="pt"
         )
         blip_image_name = outputs_name["pixel_values"]
         blip_input_ids_name = outputs_name["input_ids"]
 
         outputs_feature = self.blip_processor(
-            images=images, text=["The feature of this bird is"] * len(images), return_tensors="pt"
+            images=images, text=["The feature of this object is"] * len(images), return_tensors="pt"
         )
         blip_image_feature = outputs_feature["pixel_values"]
         blip_input_ids_feature = outputs_feature["input_ids"]
@@ -263,7 +263,7 @@ if __name__ == "__main__":
     parser.add_argument('--momentum', type=float, default=0.9)
     parser.add_argument('--weight_decay', type=float, default=1e-4)
     parser.add_argument('--epochs', default=50, type=int)
-    parser.add_argument('--dataset_name', type=str, default='cub', help='options: cifar10, cifar100, imagenet, cub, scars, aircraft, herbarium_19, pets, flowers, food')
+    parser.add_argument('--dataset_name', type=str, default='cifar100', help='options: cifar10, cifar100, imagenet, cub, scars, aircraft, herbarium_19, pets, flowers, food')
     parser.add_argument('--data_root', type=str, default='/wang_hp/zhy/data/stanford_cars')
     parser.add_argument('--max_kmeans_iter', type=int, default=10)
     parser.add_argument('--k_means_init', type=int, default=20)   
