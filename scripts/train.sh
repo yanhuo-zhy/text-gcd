@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --account cvl
-#SBATCH -p normal
+#SBATCH -p general
 #SBATCH --qos normal
 #SBATCH -N 1
 #SBATCH -c 5
