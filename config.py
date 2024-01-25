@@ -2,7 +2,7 @@
 Author: yanhuo 1760331284@qq.com
 Date: 2023-11-11 16:01:37
 LastEditors: yanhuo 1760331284@qq.com
-LastEditTime: 2024-01-25 11:15:54
+LastEditTime: 2024-01-25 11:42:46
 FilePath: \text-gcd\config.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -23,8 +23,8 @@ cub_root = '/db/pszzz/NCD_dataset/cub'
 # aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
 aircraft_root = '/home/zhun.zhong/GCD_dataset/fgvc_aircraft/fgvc-aircraft-2013b'
 
-# car_root = '/db/pszzz/NCD_dataset'
-car_root = '/home/zhun.zhong/GCD_dataset'
+car_root = '/db/pszzz/NCD_dataset'
+# car_root = '/home/zhun.zhong/GCD_dataset'
 
 herbarium_dataroot = '/db/pszzz/NCD_dataset/herbarium_19'
 
