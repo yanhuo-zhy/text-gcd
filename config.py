@@ -1,3 +1,11 @@
+'''
+Author: yanhuo 1760331284@qq.com
+Date: 2023-11-11 16:01:37
+LastEditors: yanhuo 1760331284@qq.com
+LastEditTime: 2024-01-25 11:15:54
+FilePath: \text-gcd\config.py
+Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+'''
 # -----------------
 # DATASET ROOTS
 # # -----------------
@@ -37,7 +45,7 @@ cub_tag_root = 'blip2_cub_tags_attributes.txt'
 aircraft_tag_root = 'tag/aircraft_tags_attributes.txt'
 car_tag_root = 'tag/scars_tags_attributes.txt'
 cifar_10_tag_root = 'tag/cifar10_tags_attributes.txt'
-cifar_100_tag_root = 'blip2_cifar100_tags_attributes.txt'
+# cifar_100_tag_root = 'blip2_cifar100_tags_attributes.txt'
 herbarium_tag_root = 'tag/herbarium_19_tags_attributes.txt'
 imagenet_tag_root = 'tag/imagenet_tags_attributes.txt'
 oxford_pet_tag_root = 'tag/pets_tags_attributes.txt'

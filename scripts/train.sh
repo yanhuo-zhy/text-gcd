@@ -16,13 +16,13 @@ source /home/pszzz/miniconda3/bin/activate zhy
 
 # CUDA_VISIBLE_DEVICES=0 python get_tag_blip.py
 CUDA_VISIBLE_DEVICES=0 python train.py \
- --dataset_name='cifar100' \
+ --dataset_name='imagenet_100' \
  --pseudo_ratio=0.6 \
  --lambda_loss=0.2 \
- --coteaching_epoch_t=15 \
- --coteaching_epoch_i=10 \
+ --coteaching_epoch_t=0 \
+ --coteaching_epoch_i=0 \
  --seed_num=1 \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
- --experiment_name='blip2_cifar100_warmup(15-10)'
+ --experiment_name='rebuttal_imagenet100_0-0_seed1'
