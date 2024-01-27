@@ -1,4 +1,4 @@
-from torchvision.datasets import Food101
+# from torchvision.datasets import Food101
 from copy import deepcopy
 import numpy as np
 from typing import Any, Tuple
