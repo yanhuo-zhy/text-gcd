@@ -2,7 +2,7 @@
 Author: yanhuo 1760331284@qq.com
 Date: 2023-11-11 16:01:37
 LastEditors: yanhuo 1760331284@qq.com
-LastEditTime: 2024-01-25 11:42:46
+LastEditTime: 2024-01-27 14:04:19
 FilePath: \text-gcd\config.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -50,4 +50,4 @@ herbarium_tag_root = 'tag/herbarium_19_tags_attributes.txt'
 imagenet_tag_root = 'tag/imagenet_tags_attributes.txt'
 oxford_pet_tag_root = 'tag/pets_tags_attributes.txt'
 oxford_flowers_tag_root = 'tag/flowers_tags_attributes.txt'
-food_101_tag_root = 'tag/food_tags_attributes.txt'
+food_101_tag_root = 'tag/food_tags_attributes_without_unkonwn.txt'
