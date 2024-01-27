@@ -1,4 +1,12 @@
 #!/bin/bash
+###
+ # @Author: yanhuo 1760331284@qq.com
+ # @Date: 2023-11-11 16:01:59
+ # @LastEditors: yanhuo 1760331284@qq.com
+ # @LastEditTime: 2024-01-27 16:59:43
+ # @FilePath: \text-gcd\scripts\train.sh
+ # @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+### 
 #SBATCH --account cvl
 #SBATCH -p amp20
 #SBATCH --qos amp20
@@ -19,10 +27,10 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --dataset_name='food' \
  --pseudo_ratio=0.6 \
  --lambda_loss=0.2 \
- --coteaching_epoch_t=15 \
- --coteaching_epoch_i=10 \
+ --coteaching_epoch_t=3 \
+ --coteaching_epoch_i=1 \
  --seed_num=1 \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
- --experiment_name='rebuttal_food_15-10_seed1'
+ --experiment_name='rebuttal_food_3-1_seed1'
