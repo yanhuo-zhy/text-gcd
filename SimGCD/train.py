@@ -40,11 +40,11 @@ def train(student, train_loader, test_loader, unlabelled_train_loader, args):
     if args.fp16:
         fp16_scaler = torch.cuda.amp.GradScaler()
 
-    # exp_lr_scheduler = lr_scheduler.CosineAnnealingLR(
-    #         optimizer,
-    #         T_max=args.epochs,
-    #         eta_min=args.lr * 1e-3,
-    #     )
+    exp_lr_scheduler = lr_scheduler.CosineAnnealingLR(
+            optimizer,
+            T_max=args.epochs,
+            eta_min=args.lr * 1e-3,
+        )
 
 
     cluster_criterion = DistillLoss(
@@ -135,7 +135,7 @@ def train(student, train_loader, test_loader, unlabelled_train_loader, args):
         # args.logger.info('Test Accuracies: All {:.4f} | Old {:.4f} | New {:.4f}'.format(all_acc_test, old_acc_test, new_acc_test))
 
         # Step schedule
-        # exp_lr_scheduler.step()
+        exp_lr_scheduler.step()
 
         save_dict = {
             'model': student.state_dict(),
