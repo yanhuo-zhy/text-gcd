@@ -20,17 +20,31 @@ import open_clip
 torch.multiprocessing.set_sharing_strategy('file_system')
 
 def train(student, train_loader, test_loader, unlabelled_train_loader, args):
-    params_groups = get_params_groups(student)
-    optimizer = SGD(params_groups, lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
+    # params_groups = get_params_groups(student)
+    # optimizer = SGD(params_groups, lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
+    # 假设 backbone 和 projector 已经定义在您的模型中
+    backbone_params = [p for p in model.backbone.parameters() if p.requires_grad]
+    projector_params = [p for p in model.projector.parameters() if p.requires_grad]
+
+    # 为不同的参数组设置不同的学习率
+    params_groups = [
+        {'params': backbone_params, 'lr': 0.0005},
+        {'params': projector_params, 'lr': 0.1}
+    ]
+
+    # 创建优化器
+    optimizer = SGD(params_groups, momentum=args.momentum, weight_decay=args.weight_decay)
+    args.logger.info(backbone_params)
+    args.logger.info(projector_params)
     fp16_scaler = None
     if args.fp16:
         fp16_scaler = torch.cuda.amp.GradScaler()
 
-    exp_lr_scheduler = lr_scheduler.CosineAnnealingLR(
-            optimizer,
-            T_max=args.epochs,
-            eta_min=args.lr * 1e-3,
-        )
+    # exp_lr_scheduler = lr_scheduler.CosineAnnealingLR(
+    #         optimizer,
+    #         T_max=args.epochs,
+    #         eta_min=args.lr * 1e-3,
+    #     )
 
 
     cluster_criterion = DistillLoss(
@@ -121,7 +135,7 @@ def train(student, train_loader, test_loader, unlabelled_train_loader, args):
         # args.logger.info('Test Accuracies: All {:.4f} | Old {:.4f} | New {:.4f}'.format(all_acc_test, old_acc_test, new_acc_test))
 
         # Step schedule
-        exp_lr_scheduler.step()
+        # exp_lr_scheduler.step()
 
         save_dict = {
             'model': student.state_dict(),
@@ -256,8 +270,8 @@ if __name__ == "__main__":
 
     ## BACKBONE note the backbone.parameters!!!!
     ## dino-vitb
-    backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
-    args.feat_dim = 768
+    # backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
+    # args.feat_dim = 768
 
     ## clip-vith
     # model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
@@ -266,9 +280,9 @@ if __name__ == "__main__":
     # args.feat_dim = 1024
 
     ## clip-vitb
-    # clip_model = open_clip.create_model_and_transforms('ViT-B-16', pretrained='openai')[0]
-    # backbone = clip_model.visual
-    # args.feat_dim = 512
+    clip_model = open_clip.create_model_and_transforms('ViT-B-16', pretrained='openai')[0]
+    backbone = clip_model.visual
+    args.feat_dim = 512
 
     if args.warmup_model_dir is not None:
         args.logger.info(f'Loading weights from {args.warmup_model_dir}')
@@ -287,19 +301,19 @@ if __name__ == "__main__":
         m.requires_grad = False
 
     # Only finetune layers from block 'args.grad_from_block' onwards
-    for name, m in backbone.named_parameters():
-        if 'block' in name:
-            block_num = int(name.split('.')[1])
-            if block_num >= args.grad_from_block:
-                m.requires_grad = True
+    # for name, m in backbone.named_parameters():
+    #     if 'block' in name:
+    #         block_num = int(name.split('.')[1])
+    #         if block_num >= args.grad_from_block:
+    #             m.requires_grad = True
 
-    # for name, param in backbone.named_parameters():
-    #     if "resblocks.11" in name:
-    #         param.requires_grad_(True)
-    #         print(name)
-    #     if name=="proj":
-    #         param.requires_grad_(True)
-    #         print(name)
+    for name, param in backbone.named_parameters():
+        if "resblocks.11" in name:
+            param.requires_grad_(True)
+            print(name)
+        if name=="proj":
+            param.requires_grad_(True)
+            print(name)
 
     
     args.logger.info('model build')

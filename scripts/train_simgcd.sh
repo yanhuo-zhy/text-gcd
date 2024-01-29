@@ -11,9 +11,7 @@ module load cuda/12.1
 source /home/zhun.zhong/miniconda3/bin/activate zhy
 
 CUDA_VISIBLE_DEVICES=0 python SimGCD/train.py \
- --dataset_name='cifar100' \
+ --dataset_name='imagenet_100' \
  --seed_num=2 \
- --prop_train_labels=0.5 \
- --prop_knownclass=0.4 \
  --exp_name='SimGCD_cifar100_prob_knownclass(0.4)_seed2' \
  --print_freq=20
