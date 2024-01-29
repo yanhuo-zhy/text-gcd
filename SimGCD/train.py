@@ -23,8 +23,8 @@ def train(student, train_loader, test_loader, unlabelled_train_loader, args):
     # params_groups = get_params_groups(student)
     # optimizer = SGD(params_groups, lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
     # 假设 backbone 和 projector 已经定义在您的模型中
-    backbone_params = [p for p in model.backbone.parameters() if p.requires_grad]
-    projector_params = [p for p in model.projector.parameters() if p.requires_grad]
+    backbone_params = [p for p in student[0].parameters() if p.requires_grad]
+    projector_params = [p for p in student[0].parameters() if p.requires_grad]
 
     # 为不同的参数组设置不同的学习率
     params_groups = [
