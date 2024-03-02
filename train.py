@@ -157,7 +157,7 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
         loss = 0
         loss += args.lambda_loss * loss_cls 
         loss += (1-args.lambda_loss) * loss_cluster
-        # loss += loss_pseduo
+        loss += loss_pseduo
         # loss += loss_clip_tag
 
         # Backward pass
