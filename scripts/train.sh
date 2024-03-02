@@ -3,7 +3,7 @@
  # @Author: yanhuo 1760331284@qq.com
  # @Date: 2023-11-11 16:01:59
  # @LastEditors: yanhuo 1760331284@qq.com
- # @LastEditTime: 2024-03-02 16:11:47
+ # @LastEditTime: 2024-03-02 16:14:06
  # @FilePath: \text-gcd\scripts\train.sh
  # @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 ### 
@@ -14,7 +14,7 @@
 #SBATCH -c 5
 #SBATCH --mem=20000
 #SBATCH --gres gpu:1
-#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_eccv_scars_wo_conloss.txt
+#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_eccv_scars_baseline.txt
 
 module load gcc/gcc-10.2.0
 # module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
@@ -33,4 +33,4 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
- --experiment_name='eccv_scars_wo_conloss'
+ --experiment_name='eccv_scars_baseline'
