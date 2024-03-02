@@ -14,7 +14,7 @@
 #SBATCH -c 5
 #SBATCH --mem=20000
 #SBATCH --gres gpu:1
-#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_eccv_imagenet100_wo_conloss.txt
+#SBATCH -o /home/pszzz/hyzheng/text-gcd/temp/temp_eccv_imagenet100_baseline.txt
 
 module load gcc/gcc-10.2.0
 # module load nvidia/cuda-10.0 nvidia/cudnn-v7.6.5.32-forcuda10.0
@@ -33,4 +33,4 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
- --experiment_name='eccv_imagenet_100_wo_conloss'
+ --experiment_name='eccv_imagenet_100_baseline'
