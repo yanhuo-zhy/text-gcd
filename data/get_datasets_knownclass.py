@@ -7,7 +7,7 @@ from data.imagenet import get_imagenet_100_datasets, get_imagenet_1k_datasets
 from data.cub import get_cub_datasets
 from data.fgvc_aircraft import get_aircraft_datasets
 # from data.oxford_pets import get_oxford_pets_datasets
-# from data.oxford_flowers import get_oxford_flowers_datasets
+from data.oxford_flowers import get_oxford_flowers_datasets
 # from data.food101 import get_food_101_datasets
 
 from copy import deepcopy
@@ -27,7 +27,7 @@ get_dataset_funcs = {
     'aircraft': get_aircraft_datasets,
     'scars': get_scars_datasets,
     # 'pets': get_oxford_pets_datasets,
-    # 'flowers': get_oxford_flowers_datasets,
+    'flowers': get_oxford_flowers_datasets,
     # 'food': get_food_101_datasets
 }
 
