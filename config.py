@@ -2,7 +2,7 @@
 Author: yanhuo 1760331284@qq.com
 Date: 2023-11-11 16:01:37
 LastEditors: yanhuo 1760331284@qq.com
-LastEditTime: 2024-01-27 14:17:23
+LastEditTime: 2024-03-05 11:33:49
 FilePath: \text-gcd\config.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -33,7 +33,8 @@ imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 
 oxford_pet_root = '/home/zhun.zhong/GCD_dataset'
 
-oxford_flowers_root = '/home/zhun.zhong/GCD_dataset'
+# oxford_flowers_root = '/home/zhun.zhong/GCD_dataset'
+oxford_flowers_root = '/db/pszzz/NCD_dataset'
 
 # food_101_root = '/home/zhun.zhong/GCD_dataset/food_101'
 food_101_root = '/db/pszzz/NCD_dataset/food-101'
