@@ -1,4 +1,4 @@
-from torchvision.datasets import OxfordIIITPet
+from .oxford_iiit_pet import OxfordIIITPet
 from copy import deepcopy
 import numpy as np
 from typing import Any, Tuple
