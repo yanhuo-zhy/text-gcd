@@ -2,7 +2,7 @@
 Author: yanhuo 1760331284@qq.com
 Date: 2023-11-11 16:01:37
 LastEditors: yanhuo 1760331284@qq.com
-LastEditTime: 2024-03-05 11:33:49
+LastEditTime: 2024-03-08 17:04:33
 FilePath: \text-gcd\config.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -31,7 +31,8 @@ herbarium_dataroot = '/db/pszzz/NCD_dataset/herbarium_19'
 imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 # imagenet_root = '/mhug-storage/imagenet'
 
-oxford_pet_root = '/home/zhun.zhong/GCD_dataset'
+# oxford_pet_root = '/home/zhun.zhong/GCD_dataset'
+oxford_pet_root = '/db/pszzz/NCD_dataset'
 
 # oxford_flowers_root = '/home/zhun.zhong/GCD_dataset'
 oxford_flowers_root = '/db/pszzz/NCD_dataset'
@@ -50,6 +51,6 @@ cifar_10_tag_root = 'tag/cifar10_tags_attributes.txt'
 cifar_100_tag_root = 'tag/cifar100_tags_attributes.txt'
 herbarium_tag_root = 'tag/herbarium_19_tags_attributes.txt'
 imagenet_tag_root = 'tag/imagenet_tags_attributes.txt'
-oxford_pet_tag_root = 'tag/pets_tags_attributes.txt'
+oxford_pet_tag_root = 'tag/pets_tags_attributes_woknown.txt'
 oxford_flowers_tag_root = 'tag/flowers_tags_attributes_upbond.txt'
 food_101_tag_root = 'tag/food_tags_attributes_without_unkonwn.txt'
