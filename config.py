@@ -47,7 +47,7 @@ food_101_root = '/db/pszzz/NCD_dataset/food-101'
 osr_split_dir = 'data/ssb_splits'
 
 # tag root
-cub_tag_root = 'tag/cub_tags_attributes.txt'
+cub_tag_root = '/wang_hp/zhy/rebuttal/text-gcd/tag/cub_tags_attributes.txt'
 aircraft_tag_root = 'tag/aircraft_tags_attributes.txt'
 car_tag_root = 'tag/scars_tags_attributes.txt'
 cifar_10_tag_root = 'tag/cifar10_tags_attributes.txt'

@@ -175,13 +175,13 @@ def train_one_epoch(args, logger, writer, loader, model, optimizer, scheduler, e
         total_loss_clip_tag += loss_clip_tag.item()
 
         iter_idx = epoch * len(train_loader) + batch_idx
-        writer.add_scalars('Loss', {
-            'loss_cls': loss_cls.item(),
-            'loss_cluster': loss_cluster.item(),
-            'loss_pseduo': loss_pseduo.item(),
-            'loss_clip_tag': loss_clip_tag.item(),
-            'total_loss': loss.item()
-        }, iter_idx)
+        # writer.add_scalars('Loss', {
+        #     'loss_cls': loss_cls.item(),
+        #     'loss_cluster': loss_cluster.item(),
+        #     'loss_pseduo': loss_pseduo.item(),
+        #     'loss_clip_tag': loss_clip_tag.item(),
+        #     'total_loss': loss.item()
+        # }, iter_idx)
 
     scheduler.step()
     logger.info(
@@ -243,6 +243,10 @@ if __name__ == "__main__":
     args.num_unlabeled_classes = len(args.unlabeled_classes)
     args.num_classes = args.num_labeled_classes + args.num_unlabeled_classes
     args, logger, writer = init_experiment(args)
+
+    if args.dataset_name =='cub':
+        args.num_classes = 231
+        logger.info(f"Num_classes: {args.num_classes}")
 
     logger.info(f"Loading CLIP (backbone: {args.backbone_name})")
     clip_model = load_clip_to_cpu(args.backbone_name).float()
@@ -350,9 +354,9 @@ if __name__ == "__main__":
 
         total_acc_w, old_acc_w, new_acc_w = evaluate_weighted(model, test_loader, train_classes=args.train_classes)
         logger.info(f"Weighted Accuracies: All {total_acc_w:.4f} | Old {old_acc_w:.4f} | New {new_acc_w:.4f}")
-        writer.add_scalar('Accuracy/All', total_acc_w, epoch)
-        writer.add_scalar('Accuracy/Old', old_acc_w, epoch)
-        writer.add_scalar('Accuracy/New', new_acc_w, epoch)
+        # writer.add_scalar('Accuracy/All', total_acc_w, epoch)
+        # writer.add_scalar('Accuracy/Old', old_acc_w, epoch)
+        # writer.add_scalar('Accuracy/New', new_acc_w, epoch)
 
         # if total_acc_w > best_acc_w:
         #     best_acc_w = total_acc_w
