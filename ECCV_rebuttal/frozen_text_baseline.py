@@ -149,20 +149,20 @@ class FrozenTextCLIP(nn.Module):
         self.image_classifier.weight_g.requires_grad = False
 
         if dataset_name == 'cub':
-            cub_root = "/wang_hp/zhy/data"
+            cub_root = "/db/pszzz/NCD_dataset/cub"
             with open(os.path.join(cub_root, 'CUB_200_2011', 'classes.txt'), 'r') as f:
                 lines = f.readlines()
                 class_descriptions = [line.strip().split('.', 1)[1] for line in lines]
             self.class_descriptions = [desc.replace('_', ' ') for desc in class_descriptions]
             
         elif dataset_name == 'scars':
-            file_path = '/wang_hp/zhy/data/stanford_cars/devkit/cars_annos.mat'
+            file_path = '/db/pszzz/NCD_dataset/stanford_cars/devkit/cars_annos.mat'
             data = loadmat(file_path)
             class_names_array = data['class_names'][0]
             self.class_descriptions = [str(name[0]) for name in class_names_array]
 
         elif dataset_name == 'cifar100':
-            cifar100_root = "/wang_hp/zhy/data"
+            cifar100_root = "/db/pszzz/NCD_dataset/cifar100"
             data = CIFAR100(root=cifar100_root, train=True)
             self.class_descriptions = data.classes
 
