@@ -11,4 +11,4 @@ CUDA_VISIBLE_DEVICES=0 python frozen_text_baseline.py \
  --batch_size=128 \
  --prop_train_labels=0.5 \
  --experiment_name='cub_frozentext_text(clusterloss)' \
- --output_dir='./rebuttal/train_classnums' \
+ --output_dir='./rebuttal/frozen_text' \
