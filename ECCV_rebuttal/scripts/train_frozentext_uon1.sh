@@ -14,7 +14,7 @@ module load nvidia/cuda-11.1 nvidia/cudnn-v8.1.1.33-forcuda11.0-to-11.2
 
 source /home/pszzz/miniconda3/bin/activate zhy
 
-CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
+CUDA_VISIBLE_DEVICES=0 python frozen_text_baseline.py \
  --dataset_name='cifar100' \
  --pseudo_ratio=0.6 \
  --lambda_loss=0.2 \
@@ -27,7 +27,7 @@ CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
  --experiment_name='cifar100_frozentext_text(clusterloss)_seed0' \
  --output_dir='./rebuttal/frozen_text' \
 
-CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
+CUDA_VISIBLE_DEVICES=0 python frozen_text_baseline.py \
  --dataset_name='cifar100' \
  --pseudo_ratio=0.6 \
  --lambda_loss=0.2 \
@@ -40,7 +40,7 @@ CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
  --experiment_name='cifar100_frozentext_text(clusterloss)_seed1' \
  --output_dir='./rebuttal/frozen_text' \
 
-CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
+CUDA_VISIBLE_DEVICES=0 python frozen_text_baseline.py \
  --dataset_name='cifar100' \
  --pseudo_ratio=0.6 \
  --lambda_loss=0.2 \
