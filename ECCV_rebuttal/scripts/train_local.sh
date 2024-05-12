@@ -10,4 +10,5 @@ CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
- --experiment_name='cub_test_baseparam'
+ --experiment_name='cub_test_baseparam' \
+ --output_dir='./rebuttal/train_classnums' \

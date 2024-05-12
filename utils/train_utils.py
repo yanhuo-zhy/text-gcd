@@ -21,9 +21,12 @@ def set_seeds(seed):
 
 
 def create_experiment_directory(experiment_name, output_dir):
-    current_time = datetime.now().strftime('%m-%d-%H-%M')
-    experiment_dir = os.path.join(output_dir, f"{current_time}-{experiment_name}")
+    # current_time = datetime.now().strftime('%m-%d-%H-%M')
+    # experiment_dir = os.path.join(output_dir, f"{current_time}-{experiment_name}")
+    # os.makedirs(experiment_dir, exist_ok=True)
+    experiment_dir = os.path.join(output_dir, experiment_name)
     os.makedirs(experiment_dir, exist_ok=True)
+
     
     subdirs = ['logs', 'models', 'tensorboard_logs']
     for subdir in subdirs:

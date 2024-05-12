@@ -10,20 +10,23 @@ Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查�
 # DATASET ROOTS
 # # -----------------
 cifar_10_root = '/db/pszzz/NCD_dataset/cifar10'
-cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
+# cifar_100_root = '/db/pszzz/NCD_dataset/cifar100'
+cifar_100_root = '/wang_hp/zhy/data'
 # cifar_10_root = '/db/psawl'
 # cifar_100_root = '/db/psawl'
 # cifar_10_root = '/home/zhun.zhong/GCD_dataset/cifar_10'
 # cifar_100_root = '/home/zhun.zhong/GCD_dataset/cifar_100'
 
-cub_root = '/db/pszzz/NCD_dataset/cub'
+# cub_root = '/db/pszzz/NCD_dataset/cub'
+cub_root = '/wang_hp/zhy/data'
 # cub_root = '/db/psawl/cub'
 # cub_root = '/home/zhun.zhong/GCD_dataset/cub'
 
 # aircraft_root = '/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b'
 aircraft_root = '/home/zhun.zhong/GCD_dataset/fgvc_aircraft/fgvc-aircraft-2013b'
 
-car_root = '/db/pszzz/NCD_dataset'
+# car_root = '/db/pszzz/NCD_dataset'
+car_root = '/wang_hp/zhy/data'
 # car_root = '/home/zhun.zhong/GCD_dataset'
 
 herbarium_dataroot = '/db/pszzz/NCD_dataset/herbarium_19'
