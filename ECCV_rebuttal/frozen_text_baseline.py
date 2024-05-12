@@ -156,7 +156,7 @@ class FrozenTextCLIP(nn.Module):
             self.class_descriptions = [desc.replace('_', ' ') for desc in class_descriptions]
             
         elif dataset_name == 'scars':
-            file_path = '/db/pszzz/NCD_dataset/stanford_cars/devkit/cars_annos.mat'
+            file_path = '/db/pszzz/NCD_dataset/stanford_cars/cars_annos.mat'
             data = loadmat(file_path)
             class_names_array = data['class_names'][0]
             self.class_descriptions = [str(name[0]) for name in class_names_array]
