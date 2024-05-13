@@ -24,7 +24,7 @@ CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
- --experiment_name='cifar100_train_classnums_seed0' \
+ --experiment_name='cifar100_train_classnums_clip_seed0' \
  --output_dir='./rebuttal/train_classnums' \
 
 CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
@@ -37,7 +37,7 @@ CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
- --experiment_name='cifar100_train_classnums_seed1' \
+ --experiment_name='cifar100_train_classnums_clip_seed1' \
  --output_dir='./rebuttal/train_classnums' \
 
 CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
@@ -50,5 +50,5 @@ CUDA_VISIBLE_DEVICES=0 python train_classnums.py \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
- --experiment_name='cifar100_train_classnums_seed2' \
+ --experiment_name='cifar100_train_classnums_clip_seed2' \
  --output_dir='./rebuttal/train_classnums' \
