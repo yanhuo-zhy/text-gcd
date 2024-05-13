@@ -23,6 +23,7 @@ from utils import init_experiment, get_pseudolabel, evaluate_two, evaluate_weigh
 
 from clip import clip
 from scipy.optimize import linear_sum_assignment as linear_assignment
+from sklearn.metrics import accuracy_score, top_k_accuracy_score
 
 def evaluate_accuracy(preds, targets, mask):
     # 预测精度
@@ -65,43 +66,84 @@ def evaluate_accuracy(preds, targets, mask):
 
     return total_acc, old_acc, new_acc
 
+# def evaluate_two_frozentext(model, test_loader, train_classes=None):
+#     model.eval()
+
+#     pred_text, pred_image, pred_all, targets = [], [], [], []
+#     mask = np.array([])
+#     for _, (images, label, _, _, _) in enumerate(tqdm(test_loader)):
+#         images = images.cuda(non_blocking=True)
+
+#         with torch.no_grad():
+#             logits_image, logits_text, _ = model(images)
+
+#             classifier_image_probs = F.softmax(logits_image, dim=-1)
+#             classifier_text_probs = F.softmax(logits_text, dim=-1)
+
+#             averaged_probs = 0.5 * classifier_image_probs + 0.5 * classifier_text_probs
+
+#             pred_text.append(logits_text.argmax(1).cpu().numpy())
+#             pred_image.append(logits_image.argmax(1).cpu().numpy())
+#             pred_all.append(averaged_probs.argmax(1).cpu().numpy())
+#             targets.append(label.cpu().numpy())
+#             mask = np.append(mask, np.array([True if x.item() in train_classes else False for x in label]))
+
+#     pred_text = np.concatenate(pred_text)
+#     pred_image = np.concatenate(pred_image)
+#     pred_all = np.concatenate(pred_all)
+#     targets = np.concatenate(targets)
+    
+#     # 预测精度-text
+#     total_acc_text, old_acc_text, new_acc_text = evaluate_accuracy(pred_text, targets, mask)
+
+#     # 预测精度-image
+#     total_acc_image, old_acc_image, new_acc_image = evaluate_accuracy(pred_image, targets, mask)
+
+#     # 预测精度-all
+#     total_acc_all, old_acc_all, new_acc_all = evaluate_accuracy(pred_all, targets, mask)
+
+#     return total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image, total_acc_all, old_acc_all, new_acc_all
+
 def evaluate_two_frozentext(model, test_loader, train_classes=None):
     model.eval()
 
-    pred_text, pred_image, pred_all, targets = [], [], [], []
-    mask = np.array([])
+    pred_text_logits, pred_image_logits, pred_all_logits, targets = [], [], [], []
     for _, (images, label, _, _, _) in enumerate(tqdm(test_loader)):
         images = images.cuda(non_blocking=True)
 
         with torch.no_grad():
             logits_image, logits_text, _ = model(images)
 
+            # 计算softmax概率
             classifier_image_probs = F.softmax(logits_image, dim=-1)
             classifier_text_probs = F.softmax(logits_text, dim=-1)
 
+            # 平均概率
             averaged_probs = 0.5 * classifier_image_probs + 0.5 * classifier_text_probs
 
-            pred_text.append(logits_text.argmax(1).cpu().numpy())
-            pred_image.append(logits_image.argmax(1).cpu().numpy())
-            pred_all.append(averaged_probs.argmax(1).cpu().numpy())
+            # 收集logits用于计算acc1和acc5
+            pred_text_logits.append(logits_text.cpu().numpy())
+            pred_image_logits.append(logits_image.cpu().numpy())
+            pred_all_logits.append(averaged_probs.cpu().numpy())
             targets.append(label.cpu().numpy())
-            mask = np.append(mask, np.array([True if x.item() in train_classes else False for x in label]))
 
-    pred_text = np.concatenate(pred_text)
-    pred_image = np.concatenate(pred_image)
-    pred_all = np.concatenate(pred_all)
+    # 将list转换为numpy array
+    pred_text_logits = np.concatenate(pred_text_logits)
+    pred_image_logits = np.concatenate(pred_image_logits)
+    pred_all_logits = np.concatenate(pred_all_logits)
     targets = np.concatenate(targets)
-    
-    # 预测精度-text
-    total_acc_text, old_acc_text, new_acc_text = evaluate_accuracy(pred_text, targets, mask)
 
-    # 预测精度-image
-    total_acc_image, old_acc_image, new_acc_image = evaluate_accuracy(pred_image, targets, mask)
+    # 计算每种输出的Top-1和Top-5 accuracy
+    total_acc_text = accuracy_score(targets, pred_text_logits.argmax(axis=1))
+    total_acc5_text = top_k_accuracy_score(targets, pred_text_logits, k=5)
 
-    # 预测精度-all
-    total_acc_all, old_acc_all, new_acc_all = evaluate_accuracy(pred_all, targets, mask)
+    total_acc_image = accuracy_score(targets, pred_image_logits.argmax(axis=1))
+    total_acc5_image = top_k_accuracy_score(targets, pred_image_logits, k=5)
 
-    return total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image, total_acc_all, old_acc_all, new_acc_all
+    total_acc_all = accuracy_score(targets, pred_all_logits.argmax(axis=1))
+    total_acc5_all = top_k_accuracy_score(targets, pred_all_logits, k=5)
+
+    return total_acc_text, total_acc5_text, total_acc_image, total_acc5_image, total_acc_all, total_acc5_all
 
 def get_pseudolabel_frozentext(model, dataloader, pseudo_num):
 
@@ -509,18 +551,28 @@ if __name__ == "__main__":
 
         if epoch == 0:
             # total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image = evaluate_two(model, test_loader, train_classes=args.train_classes)
-            total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image, total_acc_all, old_acc_all, new_acc_all = evaluate_two_frozentext(model, test_loader, train_classes=args.train_classes)
-            logger.info(f"Before Train Accuracies: Text {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
-            logger.info(f"Before Train Accuracies: Image {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
-            logger.info(f"Before Train Accuracies: All {total_acc_all:.4f} | Old {old_acc_all:.4f} | New {new_acc_all:.4f}")
+            # total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image, total_acc_all, old_acc_all, new_acc_all = evaluate_two_frozentext(model, test_loader, train_classes=args.train_classes)
+            # logger.info(f"Before Train Accuracies: Text {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
+            # logger.info(f"Before Train Accuracies: Image {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
+            # logger.info(f"Before Train Accuracies: All {total_acc_all:.4f} | Old {old_acc_all:.4f} | New {new_acc_all:.4f}")
+
+            total_acc_text, total_acc5_text, total_acc_image, total_acc5_image, total_acc_all, total_acc5_all = evaluate_two_frozentext(model, test_loader, train_classes=args.train_classes)
+            logger.info(f"Before Train Text Classifier Accuracies: Top-1 {total_acc_text:.4f} | Top-5 {total_acc5_text:.4f}")
+            logger.info(f"Before Train Image Classifier Accuracies: Top-1 {total_acc_image:.4f} | Top-5 {total_acc5_image:.4f}")
+            logger.info(f"Before Train Combined Classifier Accuracies: Top-1 {total_acc_all:.4f} | Top-5 {total_acc5_all:.4f}")
 
 
         train_one_epoch(args, logger, writer, train_loader, model, optimizer_train, scheduler_train, epoch, pseudo_text)
         # total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image = evaluate_two(model, test_loader, train_classes=args.train_classes)
-        total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image, total_acc_all, old_acc_all, new_acc_all = evaluate_two_frozentext(model, test_loader, train_classes=args.train_classes)
-        logger.info(f"Text classifier Epoch {epoch} Train Accuracies: Text All {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
-        logger.info(f"Image classifier Epoch {epoch} Train Accuracies: Image All {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
-        logger.info(f"All classifier Epoch {epoch} Train Accuracies: All All {total_acc_all:.4f} | Old {old_acc_all:.4f} | New {new_acc_all:.4f}")
+        # total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image, total_acc_all, old_acc_all, new_acc_all = evaluate_two_frozentext(model, test_loader, train_classes=args.train_classes)
+        # logger.info(f"Text classifier Epoch {epoch} Train Accuracies: Text All {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
+        # logger.info(f"Image classifier Epoch {epoch} Train Accuracies: Image All {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
+        # logger.info(f"All classifier Epoch {epoch} Train Accuracies: All All {total_acc_all:.4f} | Old {old_acc_all:.4f} | New {new_acc_all:.4f}")
+
+        total_acc_text, total_acc5_text, total_acc_image, total_acc5_image, total_acc_all, total_acc5_all = evaluate_two_frozentext(model, test_loader, train_classes=args.train_classes)
+        logger.info(f"Text classifier Epoch {epoch} Train Accuracies: Top-1 {total_acc_text:.4f} | Top-5 {total_acc5_text:.4f}")
+        logger.info(f"Image classifier Epoch {epoch} Train Accuracies: Top-1 {total_acc_image:.4f} | Top-5 {total_acc5_image:.4f}")
+        logger.info(f"All classifier Epoch {epoch} Train Accuracies: Top-1 {total_acc_all:.4f} | Top-5 {total_acc5_all:.4f}")
 
         # total_acc_w, old_acc_w, new_acc_w = evaluate_weighted(model, test_loader, train_classes=args.train_classes)
         # logger.info(f"Weighted Accuracies: All {total_acc_w:.4f} | Old {old_acc_w:.4f} | New {new_acc_w:.4f}")
