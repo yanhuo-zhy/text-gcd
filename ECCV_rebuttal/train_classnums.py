@@ -245,13 +245,13 @@ if __name__ == "__main__":
     args, logger, writer = init_experiment(args)
 
     if args.dataset_name =='cub':
-        args.num_classes = 231
+        args.num_classes = 193
         logger.info(f"Num_classes: {args.num_classes}")
     elif args.dataset_name =='scars':
-        args.num_classes = 230
+        args.num_classes = 212
         logger.info(f"Num_classes: {args.num_classes}")
     elif args.dataset_name =='cifar100':
-        args.num_classes = 100
+        args.num_classes = 102
         logger.info(f"Num_classes: {args.num_classes}")
 
     logger.info(f"Loading CLIP (backbone: {args.backbone_name})")
