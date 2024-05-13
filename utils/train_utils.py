@@ -12,6 +12,7 @@ from torch.nn import functional as F
 from tqdm import tqdm
 from faster_mix_k_means_pytorch import K_Means as SemiSupKMeans
 from faster_mix_k_means_pytorch import pairwise_distance
+from sklearn.metrics import accuracy_score, top_k_accuracy_score
 
 def set_seeds(seed):
     torch.manual_seed(seed)
@@ -339,10 +340,38 @@ def evaluate_accuracy(preds, targets, mask):
 
     return total_acc, old_acc, new_acc
 
+# def evaluate_two(model, test_loader, train_classes=None):
+#     model.eval()
+
+#     pred_text, pred_image, targets = [], [], []
+#     mask = np.array([])
+#     for _, (images, label, _, tag_token, _) in enumerate(tqdm(test_loader)):
+#         images = images.cuda(non_blocking=True)
+#         tag_token = tag_token.squeeze(1).cuda(non_blocking=True)
+#         with torch.no_grad():
+#             logits_image, logits_text, _, _ = model(images, tag_token)
+
+#             pred_text.append(logits_text.argmax(1).cpu().numpy())
+#             pred_image.append(logits_image.argmax(1).cpu().numpy())
+#             targets.append(label.cpu().numpy())
+#             mask = np.append(mask, np.array([True if x.item() in train_classes else False for x in label]))
+
+#     pred_text = np.concatenate(pred_text)
+#     pred_image = np.concatenate(pred_image)
+#     targets = np.concatenate(targets)
+    
+#     # 预测精度-text
+#     total_acc_text, old_acc_text, new_acc_text = evaluate_accuracy(pred_text, targets, mask)
+
+#     # 预测精度-image
+#     total_acc_image, old_acc_image, new_acc_image = evaluate_accuracy(pred_image, targets, mask)
+
+#     return total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image
+
 def evaluate_two(model, test_loader, train_classes=None):
     model.eval()
 
-    pred_text, pred_image, targets = [], [], []
+    pred_text_logits, pred_image_logits, targets = [], [], []
     mask = np.array([])
     for _, (images, label, _, tag_token, _) in enumerate(tqdm(test_loader)):
         images = images.cuda(non_blocking=True)
@@ -350,22 +379,26 @@ def evaluate_two(model, test_loader, train_classes=None):
         with torch.no_grad():
             logits_image, logits_text, _, _ = model(images, tag_token)
 
-            pred_text.append(logits_text.argmax(1).cpu().numpy())
-            pred_image.append(logits_image.argmax(1).cpu().numpy())
+            # 保存logits而不是argmax结果，以便计算Top-5 accuracy
+            pred_text_logits.append(logits_text.cpu().numpy())
+            pred_image_logits.append(logits_image.cpu().numpy())
             targets.append(label.cpu().numpy())
             mask = np.append(mask, np.array([True if x.item() in train_classes else False for x in label]))
 
-    pred_text = np.concatenate(pred_text)
-    pred_image = np.concatenate(pred_image)
+    # 将logits列表转换为numpy数组
+    pred_text_logits = np.concatenate(pred_text_logits)
+    pred_image_logits = np.concatenate(pred_image_logits)
     targets = np.concatenate(targets)
-    
-    # 预测精度-text
-    total_acc_text, old_acc_text, new_acc_text = evaluate_accuracy(pred_text, targets, mask)
 
-    # 预测精度-image
-    total_acc_image, old_acc_image, new_acc_image = evaluate_accuracy(pred_image, targets, mask)
+    # 计算Top-1 accuracy
+    total_acc_text = accuracy_score(targets, pred_text_logits.argmax(axis=1))
+    total_acc_image = accuracy_score(targets, pred_image_logits.argmax(axis=1))
 
-    return total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image
+    # 计算Top-5 accuracy
+    total_acc_text_top5 = top_k_accuracy_score(targets, pred_text_logits, k=5)
+    total_acc_image_top5 = top_k_accuracy_score(targets, pred_image_logits, k=5)
+
+    return total_acc_text, total_acc_text_top5, total_acc_image, total_acc_image_top5
 
 def evaluate_two_images(model, test_loader, train_classes=None):
     model.eval()
@@ -423,10 +456,37 @@ def evaluate_two_text(model, test_loader, train_classes=None):
 
     return total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image
 
+# def evaluate_weighted(model, test_loader, train_classes=None):
+#     model.eval()
+
+#     preds, targets = [], []
+#     mask = np.array([])
+#     for batch_idx, (images, label, _, tag_token, _) in enumerate(tqdm(test_loader)):
+#         images = images.cuda(non_blocking=True)
+#         tag_token = tag_token.squeeze(1).cuda(non_blocking=True)
+#         with torch.no_grad():
+#             logits_image, logits_text, _, _ = model(images, tag_token)
+
+#             classifier_image_probs = F.softmax(logits_image, dim=-1)
+#             classifier_text_probs = F.softmax(logits_text, dim=-1)
+
+#             averaged_probs = 0.5 * classifier_image_probs + 0.5 * classifier_text_probs
+
+#             preds.append(averaged_probs.argmax(1).cpu().numpy())
+#             targets.append(label.cpu().numpy())
+#             mask = np.append(mask, np.array([True if x.item() in train_classes else False for x in label]))
+
+#     preds = np.concatenate(preds)
+#     targets = np.concatenate(targets)
+
+#     # 预测精度
+#     total_acc, old_acc, new_acc = evaluate_accuracy(preds, targets, mask)
+
+#     return total_acc, old_acc, new_acc
 def evaluate_weighted(model, test_loader, train_classes=None):
     model.eval()
 
-    preds, targets = [], []
+    preds_probs, targets = [], []
     mask = np.array([])
     for batch_idx, (images, label, _, tag_token, _) in enumerate(tqdm(test_loader)):
         images = images.cuda(non_blocking=True)
@@ -434,22 +494,29 @@ def evaluate_weighted(model, test_loader, train_classes=None):
         with torch.no_grad():
             logits_image, logits_text, _, _ = model(images, tag_token)
 
+            # 计算各个分类器的概率
             classifier_image_probs = F.softmax(logits_image, dim=-1)
             classifier_text_probs = F.softmax(logits_text, dim=-1)
 
+            # 平均两个概率
             averaged_probs = 0.5 * classifier_image_probs + 0.5 * classifier_text_probs
 
-            preds.append(averaged_probs.argmax(1).cpu().numpy())
+            # 收集预测的概率用于计算Top-1和Top-5 accuracy
+            preds_probs.append(averaged_probs.cpu().numpy())
             targets.append(label.cpu().numpy())
             mask = np.append(mask, np.array([True if x.item() in train_classes else False for x in label]))
 
-    preds = np.concatenate(preds)
+    # 转换为单一numpy数组
+    preds_probs = np.concatenate(preds_probs)
     targets = np.concatenate(targets)
 
-    # 预测精度
-    total_acc, old_acc, new_acc = evaluate_accuracy(preds, targets, mask)
+    # 计算Top-1 accuracy
+    top1_acc = accuracy_score(targets, preds_probs.argmax(axis=1))
 
-    return total_acc, old_acc, new_acc
+    # 计算Top-5 accuracy
+    top5_acc = top_k_accuracy_score(targets, preds_probs, k=5)
+
+    return top1_acc, top5_acc
 
 def evaluate_weighted_twoimage(model, test_loader, train_classes=None):
     model.eval()

@@ -336,20 +336,34 @@ if __name__ == "__main__":
             pseudo_image = image_to_class_map_i
 
         if epoch == 0:
-            total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image = evaluate_two(model, test_loader, train_classes=args.train_classes)
-            logger.info(f"Before Train Accuracies: All {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
-            logger.info(f"Before Train Accuracies: All {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
+            # total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image = evaluate_two(model, test_loader, train_classes=args.train_classes)
+            # logger.info(f"Before Train Accuracies: All {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
+            # logger.info(f"Before Train Accuracies: All {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
+
+            total_acc_text, total_acc_text_top5, total_acc_image, total_acc_image_top5 = evaluate_two(model, test_loader, train_classes=args.train_classes)
+            logger.info(f"Before Train Text Accuracies: Top-1 {total_acc_text:.4f} | Top-5 {total_acc_text_top5:.4f}")
+            logger.info(f"Before Train Image Accuracies: Top-1 {total_acc_image:.4f} | Top-5 {total_acc_image_top5:.4f}")
+
 
         train_one_epoch(args, logger, writer, train_loader, model, optimizer_train, scheduler_train, epoch, pseudo_text, pseudo_image)
-        total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image = evaluate_two(model, test_loader, train_classes=args.train_classes)
-        logger.info(f"Text classifier Epoch {epoch} Train Accuracies: All {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
-        logger.info(f"Image classifier Epoch {epoch} Train Accuracies: All {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
+        # total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image = evaluate_two(model, test_loader, train_classes=args.train_classes)
+        # logger.info(f"Text classifier Epoch {epoch} Train Accuracies: All {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
+        # logger.info(f"Image classifier Epoch {epoch} Train Accuracies: All {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
 
-        total_acc_w, old_acc_w, new_acc_w = evaluate_weighted(model, test_loader, train_classes=args.train_classes)
-        logger.info(f"Weighted Accuracies: All {total_acc_w:.4f} | Old {old_acc_w:.4f} | New {new_acc_w:.4f}")
-        writer.add_scalar('Accuracy/All', total_acc_w, epoch)
-        writer.add_scalar('Accuracy/Old', old_acc_w, epoch)
-        writer.add_scalar('Accuracy/New', new_acc_w, epoch)
+        total_acc_text, total_acc_text_top5, total_acc_image, total_acc_image_top5 = evaluate_two(model, test_loader, train_classes=args.train_classes)
+        logger.info(f"Text classifier Epoch {epoch} Train Accuracies: Top-1 {total_acc_text:.4f} | Top-5 {total_acc_text_top5:.4f}")
+        logger.info(f"Image classifier Epoch {epoch} Train Accuracies: Top-1 {total_acc_image:.4f} | Top-5 {total_acc_image_top5:.4f}")
+
+
+        # total_acc_w, old_acc_w, new_acc_w = evaluate_weighted(model, test_loader, train_classes=args.train_classes)
+        # logger.info(f"Weighted Accuracies: All {total_acc_w:.4f} | Old {old_acc_w:.4f} | New {new_acc_w:.4f}")
+
+        top1_acc_w, top5_acc_w = evaluate_weighted(model, test_loader, train_classes=args.train_classes)
+        logger.info(f"Weighted Accuracies: Top-1 {top1_acc_w:.4f} | Top-5 {top5_acc_w:.4f}")
+
+        # writer.add_scalar('Accuracy/All', total_acc_w, epoch)
+        # writer.add_scalar('Accuracy/Old', old_acc_w, epoch)
+        # writer.add_scalar('Accuracy/New', new_acc_w, epoch)
 
         # if total_acc_w > best_acc_w:
         #     best_acc_w = total_acc_w
