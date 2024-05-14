@@ -295,7 +295,7 @@ if __name__ == "__main__":
     text_transform = TextViewGenerator(alpha_sr=args.alpha_sr, alpha_ri=args.alpha_ri, alpha_rs=args.alpha_rs, alpha_rd=args.alpha_rd, seed=args.seed_num)
 
     # 创建数据加载器
-    train_dataset, _, test_dataset, _ = get_datasets(args.dataset_name, train_transform, test_transform, text_transform, args)
+    train_dataset, val_dataset, test_dataset, _ = get_datasets(args.dataset_name, train_transform, test_transform, text_transform, args)
  
     # 采样器
     label_len = len(train_dataset.labelled_dataset)
@@ -306,6 +306,8 @@ if __name__ == "__main__":
 
     train_loader = DataLoader(train_dataset, num_workers=args.num_workers, batch_size=args.batch_size, shuffle=False,sampler=sampler, drop_last=True, pin_memory=True)
     test_loader = DataLoader(test_dataset, num_workers=args.num_workers, batch_size=256, shuffle=False, pin_memory=False)
+    val_loader = DataLoader(val_dataset, num_workers=args.num_workers, batch_size=256, shuffle=False, pin_memory=False)
+
 
     logger.info(f"len of train dataset: {len(train_loader.dataset)}")
     logger.info(f"len of test dataset: {len(test_loader.dataset)}")
@@ -340,7 +342,7 @@ if __name__ == "__main__":
             # logger.info(f"Before Train Accuracies: All {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
             # logger.info(f"Before Train Accuracies: All {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
 
-            total_acc_text, total_acc_text_top5, total_acc_image, total_acc_image_top5 = evaluate_two(model, test_loader, train_classes=args.train_classes)
+            total_acc_text, total_acc_text_top5, total_acc_image, total_acc_image_top5 = evaluate_two(model, val_loader, train_classes=args.train_classes)
             logger.info(f"Before Train Text Accuracies: Top-1 {total_acc_text:.4f} | Top-5 {total_acc_text_top5:.4f}")
             logger.info(f"Before Train Image Accuracies: Top-1 {total_acc_image:.4f} | Top-5 {total_acc_image_top5:.4f}")
 
@@ -350,7 +352,7 @@ if __name__ == "__main__":
         # logger.info(f"Text classifier Epoch {epoch} Train Accuracies: All {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
         # logger.info(f"Image classifier Epoch {epoch} Train Accuracies: All {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
 
-        total_acc_text, total_acc_text_top5, total_acc_image, total_acc_image_top5 = evaluate_two(model, test_loader, train_classes=args.train_classes)
+        total_acc_text, total_acc_text_top5, total_acc_image, total_acc_image_top5 = evaluate_two(model, val_loader, train_classes=args.train_classes)
         logger.info(f"Text classifier Epoch {epoch} Train Accuracies: Top-1 {total_acc_text:.4f} | Top-5 {total_acc_text_top5:.4f}")
         logger.info(f"Image classifier Epoch {epoch} Train Accuracies: Top-1 {total_acc_image:.4f} | Top-5 {total_acc_image_top5:.4f}")
 
@@ -358,7 +360,7 @@ if __name__ == "__main__":
         # total_acc_w, old_acc_w, new_acc_w = evaluate_weighted(model, test_loader, train_classes=args.train_classes)
         # logger.info(f"Weighted Accuracies: All {total_acc_w:.4f} | Old {old_acc_w:.4f} | New {new_acc_w:.4f}")
 
-        top1_acc_w, top5_acc_w = evaluate_weighted(model, test_loader, train_classes=args.train_classes)
+        top1_acc_w, top5_acc_w = evaluate_weighted(model, val_loader, train_classes=args.train_classes)
         logger.info(f"Weighted Accuracies: Top-1 {top1_acc_w:.4f} | Top-5 {top5_acc_w:.4f}")
 
         # writer.add_scalar('Accuracy/All', total_acc_w, epoch)
