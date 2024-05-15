@@ -126,7 +126,8 @@ def train(student, train_loader, test_loader, unlabelled_train_loader, args):
         args.logger.info('Train Epoch: {} Avg Loss: {:.4f} '.format(epoch, loss_record.avg))
 
         args.logger.info('Testing on unlabelled examples in the training data...')
-        all_acc, old_acc, new_acc = test(student, unlabelled_train_loader, epoch=epoch, save_name='Train ACC Unlabelled', args=args)
+        # all_acc, old_acc, new_acc = test(student, unlabelled_train_loader, epoch=epoch, save_name='Train ACC Unlabelled', args=args)
+        all_acc, old_acc, new_acc = test(student, test_loader, epoch=epoch, save_name='Train ACC Unlabelled', args=args)
         # args.logger.info('Testing on disjoint test set...')
         # all_acc_test, old_acc_test, new_acc_test = test(student, test_loader, epoch=epoch, save_name='Test ACC', args=args)
 
@@ -243,7 +244,7 @@ if __name__ == "__main__":
     parser.add_argument('--warmup_teacher_temp_epochs', default=30, type=int, help='Number of warmup epochs for the teacher temperature.')
 
     parser.add_argument('--fp16', action='store_true', default=False)
-    parser.add_argument('--print_freq', default=1, type=int)
+    parser.add_argument('--print_freq', default=10, type=int)
     parser.add_argument('--exp_name', default='SimGCD-clip-cifar100_nofixbackbone', type=str)
 
     # ----------------------
@@ -348,8 +349,8 @@ if __name__ == "__main__":
                               sampler=sampler, drop_last=True, pin_memory=True)
     test_loader_unlabelled = DataLoader(unlabelled_train_examples_test, num_workers=args.num_workers,
                                         batch_size=256, shuffle=False, pin_memory=False)
-    # test_loader_labelled = DataLoader(test_dataset, num_workers=args.num_workers,
-    #                                   batch_size=256, shuffle=False, pin_memory=False)
+    test_loader = DataLoader(test_dataset, num_workers=args.num_workers,
+                                      batch_size=256, shuffle=False, pin_memory=False)
 
     # ----------------------
     # PROJECTION HEAD
@@ -361,4 +362,4 @@ if __name__ == "__main__":
     # TRAIN
     # ----------------------
     # train(model, train_loader, test_loader_labelled, test_loader_unlabelled, args)
-    train(model, train_loader, None, test_loader_unlabelled, args)
+    train(model, train_loader, test_loader, test_loader_unlabelled, args)
