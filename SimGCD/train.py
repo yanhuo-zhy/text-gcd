@@ -271,8 +271,8 @@ if __name__ == "__main__":
 
     ## BACKBONE note the backbone.parameters!!!!
     ## dino-vitb
-    # backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
-    # args.feat_dim = 768
+    backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
+    args.feat_dim = 768
 
     ## clip-vith
     # model_name: str = "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K"
@@ -281,9 +281,9 @@ if __name__ == "__main__":
     # args.feat_dim = 1024
 
     ## clip-vitb
-    clip_model = open_clip.create_model_and_transforms('ViT-B-16', pretrained='openai')[0]
-    backbone = clip_model.visual
-    args.feat_dim = 512
+    # clip_model = open_clip.create_model_and_transforms('ViT-B-16', pretrained='openai')[0]
+    # backbone = clip_model.visual
+    # args.feat_dim = 512
 
     if args.warmup_model_dir is not None:
         args.logger.info(f'Loading weights from {args.warmup_model_dir}')
@@ -302,19 +302,20 @@ if __name__ == "__main__":
         m.requires_grad = False
 
     # Only finetune layers from block 'args.grad_from_block' onwards
-    # for name, m in backbone.named_parameters():
-    #     if 'block' in name:
-    #         block_num = int(name.split('.')[1])
-    #         if block_num >= args.grad_from_block:
-    #             m.requires_grad = True
+    for name, m in backbone.named_parameters():
+        if 'block' in name:
+            block_num = int(name.split('.')[1])
+            if block_num >= args.grad_from_block:
+                m.requires_grad = True
+                print(name)
 
-    for name, param in backbone.named_parameters():
-        if "resblocks.11" in name:
-            param.requires_grad_(True)
-            print(name)
-        if name=="proj":
-            param.requires_grad_(True)
-            print(name)
+    # for name, param in backbone.named_parameters():
+    #     if "resblocks.11" in name:
+    #         param.requires_grad_(True)
+    #         print(name)
+    #     if name=="proj":
+    #         param.requires_grad_(True)
+    #         print(name)
 
     
     args.logger.info('model build')

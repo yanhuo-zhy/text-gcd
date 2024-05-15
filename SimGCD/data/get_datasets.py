@@ -93,10 +93,10 @@ def get_class_splits(args):
     elif args.dataset_name == 'cifar100':
 
         args.image_size = 32
-        # args.train_classes = range(80)
-        # args.unlabeled_classes = range(80, 100)
-        args.train_classes = range(int(args.prop_knownclass * 100))
-        args.unlabeled_classes = range(int(args.prop_knownclass * 100), 100)
+        args.train_classes = range(80)
+        args.unlabeled_classes = range(80, 100)
+        # args.train_classes = range(int(args.prop_knownclass * 100))
+        # args.unlabeled_classes = range(int(args.prop_knownclass * 100), 100)
 
     elif args.dataset_name == 'herbarium_19':
 
