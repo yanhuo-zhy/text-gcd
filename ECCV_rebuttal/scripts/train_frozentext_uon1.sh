@@ -15,7 +15,7 @@ module load nvidia/cuda-11.1 nvidia/cudnn-v8.1.1.33-forcuda11.0-to-11.2
 source /home/pszzz/miniconda3/bin/activate zhy
 
 CUDA_VISIBLE_DEVICES=0 python frozen_text_baseline.py \
- --dataset_name='cifar100' \
+ --dataset_name='aircraft' \
  --pseudo_ratio=0.6 \
  --lambda_loss=0.2 \
  --coteaching_epoch_t=10 \
@@ -24,5 +24,5 @@ CUDA_VISIBLE_DEVICES=0 python frozen_text_baseline.py \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.05 \
- --experiment_name='cifar100_frozentext_text(clusterloss)_ssl(0.05)_seed0' \
+ --experiment_name='aircraft_zeroshot' \
  --output_dir='./rebuttal/frozen_text' \
