@@ -179,6 +179,24 @@ def get_pseudolabel_frozentext(model, dataloader, pseudo_num):
 
     return image_to_class_map
 
+def find_classes(classes_file):
+
+    # read classes file, separating out image IDs and class names
+    image_ids = []
+    targets = []
+    f = open(classes_file, 'r')
+    for line in f:
+        split_line = line.split(' ')
+        image_ids.append(split_line[0])
+        targets.append(' '.join(split_line[1:]))
+    f.close()
+
+    # index class names
+    classes = np.unique(targets)
+    class_to_idx = {classes[i]: i for i in range(len(classes))}
+    targets = [class_to_idx[c] for c in targets]
+
+    return (image_ids, targets, classes, class_to_idx)
 
 class FrozenTextCLIP(nn.Module):
     def __init__(self, clip_model, class_nums, dataset_name):
@@ -207,6 +225,11 @@ class FrozenTextCLIP(nn.Module):
             cifar100_root = "/db/pszzz/NCD_dataset/cifar100"
             data = CIFAR100(root=cifar100_root, train=True)
             self.class_descriptions = data.classes
+
+        elif dataset_name == 'aircraft':
+            file_root = "/db/pszzz/NCD_dataset/aircraft/fgvc-aircraft-2013b/data/images_variant_trainval.txt"
+            (_, _, class_descriptions, _) = find_classes(file_root)
+            self.class_descriptions = class_descriptions
 
         else:
             pass
