@@ -48,7 +48,7 @@ osr_split_dir = 'data/ssb_splits'
 
 # tag root
 cub_tag_root = '/home/pszzz/hyzheng/text-gcd/tag/cub_tags_attributes.txt'
-aircraft_tag_root = 'tag/aircraft_tags_attributes.txt'
+aircraft_tag_root = '/home/pszzz/hyzheng/text-gcd/tag/aircraft_tags_attributes.txt'
 car_tag_root = '/home/pszzz/hyzheng/text-gcd/tag/scars_tags_attributes.txt'
 cifar_10_tag_root = 'tag/cifar10_tags_attributes.txt'
 cifar_100_tag_root = '/home/pszzz/hyzheng/text-gcd/tag/cifar100_tags_attributes.txt'
