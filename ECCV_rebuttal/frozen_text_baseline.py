@@ -573,7 +573,7 @@ if __name__ == "__main__":
             pseudo_text = image_to_class_map
 
         if epoch == 0:
-            total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image = evaluate_two(model, test_loader, train_classes=args.train_classes)
+            # total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image = evaluate_two(model, test_loader, train_classes=args.train_classes)
             total_acc_text, old_acc_text, new_acc_text, total_acc_image, old_acc_image, new_acc_image, total_acc_all, old_acc_all, new_acc_all = evaluate_two_frozentext(model, test_loader, train_classes=args.train_classes)
             logger.info(f"Before Train Accuracies: Text {total_acc_text:.4f} | Old {old_acc_text:.4f} | New {new_acc_text:.4f}")
             logger.info(f"Before Train Accuracies: Image {total_acc_image:.4f} | Old {old_acc_image:.4f} | New {new_acc_image:.4f}")
