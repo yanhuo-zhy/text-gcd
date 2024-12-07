@@ -26,7 +26,7 @@ get_dataset_funcs = {
     'cub': get_cub_datasets,
     'aircraft': get_aircraft_datasets,
     'scars': get_scars_datasets,
-    # 'pets': get_oxford_pets_datasets,
+    'pets': get_oxford_pets_datasets,
     'flowers': get_oxford_flowers_datasets,
     # 'food': get_food_101_datasets
 }
