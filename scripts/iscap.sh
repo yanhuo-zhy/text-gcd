@@ -8,7 +8,7 @@
 #SBATCH --gres=gpu:1        # 4 gpus per node out of 4
 #SBATCH --mem=100000          # memory per node out of 494000MB (481GB)
 #SBATCH --job-name=pets_textgcd
-#SBATCH -o /leonardo_work/IscrC_Fed-GCD/hyzheng/text-gcd/pets_seed1.log
+#SBATCH -o /leonardo_work/IscrC_Fed-GCD/hyzheng/text-gcd/pets_seed2.log
 
 module load cuda/12.1
 source /leonardo/home/userexternal/hzheng00/miniconda3/bin/activate textgcd
@@ -19,10 +19,10 @@ CUDA_VISIBLE_DEVICES=0 python train_knownclass.py \
  --lambda_loss=0.2 \
  --coteaching_epoch_t=10 \
  --coteaching_epoch_i=15 \
- --seed_num=1 \
+ --seed_num=2 \
  --interrupted_path='' \
  --batch_size=128 \
  --prop_train_labels=0.5 \
  --prop_knownclass=0.5 \
- --experiment_name='pets_seed1' \
+ --experiment_name='pets_seed2' \
  --output_dir 'exp_iscap'
