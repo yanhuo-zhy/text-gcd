@@ -35,7 +35,8 @@ imagenet_root = '/db/pszzz/NCD_dataset/imagenet'
 # imagenet_root = '/mhug-storage/imagenet'
 
 # oxford_pet_root = '/home/zhun.zhong/GCD_dataset'
-oxford_pet_root = '/db/pszzz/NCD_dataset'
+# oxford_pet_root = '/db/pszzz/NCD_dataset'
+oxford_pet_root = '/leonardo_work/IscrC_Fed-GCD/GCD_datasets'
 
 # oxford_flowers_root = '/home/zhun.zhong/GCD_dataset'
 oxford_flowers_root = '/db/pszzz/NCD_dataset'
