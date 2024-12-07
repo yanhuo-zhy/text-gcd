@@ -8,7 +8,7 @@
 #SBATCH --gres=gpu:1        # 4 gpus per node out of 4
 #SBATCH --mem=100000          # memory per node out of 494000MB (481GB)
 #SBATCH --job-name=pets_textgcd
-#SBATCH -o /leonardo_work/IscrC_Fed-GCD/hyzheng/temp/pets_seed3.log
+#SBATCH -o /leonardo_work/IscrC_Fed-GCD/hyzheng/text-gcd/pets_seed3.log
 
 module load cuda/12.1
 source /leonardo/home/userexternal/hzheng00/miniconda3/bin/activate textgcd
